@@ -2,10 +2,17 @@
 // api/dashboard_charts.php
 include 'auth.php';
 
-// Database connection
-$conn = new mysqli('localhost', 'root', '', 'meditrack_system');
-if ($conn->connect_error) {
-    die('Database connection failed: ' . $conn->connect_error);
+// Database connection using PDO
+try {
+    $pdo = new PDO('mysql:host=localhost;dbname=meditrack_system;charset=utf8mb4', 'root', '', [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false
+    ]);
+} catch (PDOException $e) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Database connection failed: ' . $e->getMessage()]);
+    exit;
 }
 
 header('Content-Type: application/json');
@@ -14,64 +21,70 @@ header('Content-Type: application/json');
 $chart_type = $_GET['chart'] ?? '';
 $period = $_GET['period'] ?? '30'; // days
 
-switch($chart_type) {
-    case 'inventory_overview':
-        echo json_encode(getInventoryOverview($conn));
-        break;
-    case 'stock_levels':
-        echo json_encode(getStockLevels($conn));
-        break;
-    case 'expiry_timeline':
-        echo json_encode(getExpiryTimeline($conn));
-        break;
-    case 'category_distribution':
-        echo json_encode(getCategoryDistribution($conn));
-        break;
-    case 'monthly_usage':
-        echo json_encode(getMonthlyUsage($conn));
-        break;
-    case 'medicine_types':
-        echo json_encode(getMedicineTypes($conn));
-        break;
-    case 'equipment_conditions':
-        echo json_encode(getEquipmentConditions($conn));
-        break;
-    case 'supply_quantities':
-        echo json_encode(getSupplyQuantities($conn));
-        break;
-    case 'patient_status':
-        echo json_encode(getPatientStatus($conn));
-        break;
-    case 'vital_trends':
-        echo json_encode(getVitalTrends($conn, $period));
-        break;
-    case 'assessment_types':
-        echo json_encode(getAssessmentTypes($conn));
-        break;
-    case 'nursing_shifts':
-        echo json_encode(getNursingShifts($conn));
-        break;
-    case 'activity_logs':
-        echo json_encode(getActivityLogs($conn, $period));
-        break;
-    case 'expiry_alerts':
-        echo json_encode(getExpiryAlerts($conn));
-        break;
-    case 'medicine_classification':
-        echo json_encode(getMedicineClassification($conn));
-        break;
-    case 'patient_demographics':
-        echo json_encode(getPatientDemographics($conn));
-        break;
-    default:
-        echo json_encode(['error' => 'Invalid chart type']);
+try {
+    switch($chart_type) {
+        case 'inventory_overview':
+            echo json_encode(getInventoryOverview($pdo));
+            break;
+        case 'stock_levels':
+            echo json_encode(getStockLevels($pdo));
+            break;
+        case 'expiry_timeline':
+            echo json_encode(getExpiryTimeline($pdo));
+            break;
+        case 'category_distribution':
+            echo json_encode(getCategoryDistribution($pdo));
+            break;
+        case 'monthly_usage':
+            echo json_encode(getMonthlyUsage($pdo));
+            break;
+        case 'medicine_types':
+            echo json_encode(getMedicineTypes($pdo));
+            break;
+        case 'equipment_conditions':
+            echo json_encode(getEquipmentConditions($pdo));
+            break;
+        case 'supply_quantities':
+            echo json_encode(getSupplyQuantities($pdo));
+            break;
+        case 'patient_status':
+            echo json_encode(getPatientStatus($pdo));
+            break;
+        case 'vital_trends':
+            echo json_encode(getVitalTrends($pdo, $period));
+            break;
+        case 'assessment_types':
+            echo json_encode(getAssessmentTypes($pdo));
+            break;
+        case 'nursing_shifts':
+            echo json_encode(getNursingShifts($pdo));
+            break;
+        case 'activity_logs':
+            echo json_encode(getActivityLogs($pdo, $period));
+            break;
+        case 'expiry_alerts':
+            echo json_encode(getExpiryAlerts($pdo));
+            break;
+        case 'medicine_classification':
+            echo json_encode(getMedicineClassification($pdo));
+            break;
+        case 'patient_demographics':
+            echo json_encode(getPatientDemographics($pdo));
+            break;
+        default:
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid chart type']);
+    }
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['error' => $e->getMessage()]);
 }
 
 // Chart 1: Inventory Overview
-function getInventoryOverview($conn) {
-    $medicines = $conn->query("SELECT COUNT(*) as count FROM medicines")->fetch_assoc()['count'];
-    $supplies = $conn->query("SELECT COUNT(*) as count FROM supplies")->fetch_assoc()['count'];
-    $equipment = $conn->query("SELECT COUNT(*) as count FROM equipment")->fetch_assoc()['count'];
+function getInventoryOverview($pdo) {
+    $medicines = $pdo->query("SELECT COUNT(*) as count FROM medicines")->fetchColumn();
+    $supplies = $pdo->query("SELECT COUNT(*) as count FROM supplies")->fetchColumn();
+    $equipment = $pdo->query("SELECT COUNT(*) as count FROM equipment")->fetchColumn();
     
     return [
         'labels' => ['Medicines', 'Supplies', 'Equipment'],
@@ -85,8 +98,8 @@ function getInventoryOverview($conn) {
 }
 
 // Chart 2: Stock Levels
-function getStockLevels($conn) {
-    $stockLevels = $conn->query("
+function getStockLevels($pdo) {
+    $stmt = $pdo->query("
         SELECT 
             CASE 
                 WHEN medicine_stock = 0 THEN 'Out of Stock'
@@ -97,7 +110,8 @@ function getStockLevels($conn) {
             COUNT(*) as count
         FROM medicines 
         GROUP BY level
-    ")->fetch_all(MYSQLI_ASSOC);
+    ");
+    $stockLevels = $stmt->fetchAll();
     
     $labels = array_column($stockLevels, 'level');
     $data = array_column($stockLevels, 'count');
@@ -113,21 +127,26 @@ function getStockLevels($conn) {
 }
 
 // Chart 3: Expiry Timeline
-function getExpiryTimeline($conn) {
+function getExpiryTimeline($pdo) {
     $today = date('Y-m-d');
     $periods = [
-        'Expired' => "medicine_expiry_date < '$today'",
-        'This Week' => "medicine_expiry_date BETWEEN '$today' AND DATE_ADD('$today', INTERVAL 7 DAY)",
-        'This Month' => "medicine_expiry_date BETWEEN DATE_ADD('$today', INTERVAL 8 DAY) AND DATE_ADD('$today', INTERVAL 30 DAY)",
-        'Next 3 Months' => "medicine_expiry_date BETWEEN DATE_ADD('$today', INTERVAL 31 DAY) AND DATE_ADD('$today', INTERVAL 90 DAY)",
-        'Beyond' => "medicine_expiry_date > DATE_ADD('$today', INTERVAL 90 DAY)"
+        'Expired' => "medicine_expiry_date < :today",
+        'This Week' => "medicine_expiry_date BETWEEN :today AND DATE_ADD(:today, INTERVAL 7 DAY)",
+        'This Month' => "medicine_expiry_date BETWEEN DATE_ADD(:today, INTERVAL 8 DAY) AND DATE_ADD(:today, INTERVAL 30 DAY)",
+        'Next 3 Months' => "medicine_expiry_date BETWEEN DATE_ADD(:today, INTERVAL 31 DAY) AND DATE_ADD(:today, INTERVAL 90 DAY)",
+        'Beyond' => "medicine_expiry_date > DATE_ADD(:today, INTERVAL 90 DAY)"
     ];
     
     $labels = [];
     $data = [];
     
     foreach ($periods as $label => $condition) {
-        $count = $conn->query("SELECT COUNT(*) as count FROM medicines WHERE $condition AND medicine_expiry_date IS NOT NULL")->fetch_assoc()['count'];
+        $sql = "SELECT COUNT(*) as count FROM medicines WHERE $condition AND medicine_expiry_date IS NOT NULL";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':today', $today);
+        $stmt->execute();
+        $count = $stmt->fetchColumn();
+        
         $labels[] = $label;
         $data[] = $count;
     }
@@ -145,15 +164,16 @@ function getExpiryTimeline($conn) {
 }
 
 // Chart 4: Category Distribution
-function getCategoryDistribution($conn) {
-    $categories = $conn->query("
+function getCategoryDistribution($pdo) {
+    $stmt = $pdo->query("
         SELECT medicine_classification as category, COUNT(*) as count 
         FROM medicines 
         WHERE medicine_classification IS NOT NULL 
         GROUP BY medicine_classification 
         ORDER BY count DESC 
         LIMIT 10
-    ")->fetch_all(MYSQLI_ASSOC);
+    ");
+    $categories = $stmt->fetchAll();
     
     $labels = array_column($categories, 'category');
     $data = array_column($categories, 'count');
@@ -171,7 +191,7 @@ function getCategoryDistribution($conn) {
 }
 
 // Chart 5: Monthly Usage Trend
-function getMonthlyUsage($conn) {
+function getMonthlyUsage($pdo) {
     $months = [];
     $usage = [];
     
@@ -179,12 +199,14 @@ function getMonthlyUsage($conn) {
         $month = date('Y-m', strtotime("-$i months"));
         $months[] = date('M Y', strtotime($month));
         
-        $count = $conn->query("
+        $stmt = $pdo->prepare("
             SELECT COUNT(*) as count 
             FROM activity_logs 
-            WHERE logs_timestamp LIKE '$month%' 
+            WHERE logs_timestamp LIKE ? 
             AND logs_item_type IN ('medicine', 'supply', 'equipment')
-        ")->fetch_assoc()['count'];
+        ");
+        $stmt->execute([$month . '%']);
+        $count = $stmt->fetchColumn();
         
         $usage[] = $count;
     }
@@ -203,12 +225,13 @@ function getMonthlyUsage($conn) {
 }
 
 // Chart 6: Medicine Types
-function getMedicineTypes($conn) {
-    $types = $conn->query("
+function getMedicineTypes($pdo) {
+    $stmt = $pdo->query("
         SELECT medicine_type, COUNT(*) as count 
         FROM medicines 
         GROUP BY medicine_type
-    ")->fetch_all(MYSQLI_ASSOC);
+    ");
+    $types = $stmt->fetchAll();
     
     $labels = array_column($types, 'medicine_type');
     $data = array_column($types, 'count');
@@ -224,13 +247,14 @@ function getMedicineTypes($conn) {
 }
 
 // Chart 7: Equipment Conditions
-function getEquipmentConditions($conn) {
-    $conditions = $conn->query("
+function getEquipmentConditions($pdo) {
+    $stmt = $pdo->query("
         SELECT equipment_condition, COUNT(*) as count 
         FROM equipment 
         WHERE equipment_condition IS NOT NULL 
         GROUP BY equipment_condition
-    ")->fetch_all(MYSQLI_ASSOC);
+    ");
+    $conditions = $stmt->fetchAll();
     
     $labels = array_column($conditions, 'equipment_condition');
     $data = array_column($conditions, 'count');
@@ -247,13 +271,14 @@ function getEquipmentConditions($conn) {
 }
 
 // Chart 8: Supply Quantities
-function getSupplyQuantities($conn) {
-    $supplies = $conn->query("
+function getSupplyQuantities($pdo) {
+    $stmt = $pdo->query("
         SELECT supply_name, supply_quantity 
         FROM supplies 
         ORDER BY supply_quantity DESC 
         LIMIT 10
-    ")->fetch_all(MYSQLI_ASSOC);
+    ");
+    $supplies = $stmt->fetchAll();
     
     $labels = array_column($supplies, 'supply_name');
     $data = array_column($supplies, 'supply_quantity');
@@ -271,12 +296,13 @@ function getSupplyQuantities($conn) {
 }
 
 // Chart 9: Patient Status
-function getPatientStatus($conn) {
-    $status = $conn->query("
+function getPatientStatus($pdo) {
+    $stmt = $pdo->query("
         SELECT patient_status, COUNT(*) as count 
         FROM patients 
         GROUP BY patient_status
-    ")->fetch_all(MYSQLI_ASSOC);
+    ");
+    $status = $stmt->fetchAll();
     
     $labels = array_column($status, 'patient_status');
     $data = array_column($status, 'count');
@@ -292,7 +318,7 @@ function getPatientStatus($conn) {
 }
 
 // Chart 10: Vital Signs Trends
-function getVitalTrends($conn, $period) {
+function getVitalTrends($pdo, $period) {
     $days = [];
     $avgBP = [];
     $avgTemp = [];
@@ -302,14 +328,16 @@ function getVitalTrends($conn, $period) {
         $date = date('Y-m-d', strtotime("-$i days"));
         $days[] = date('M d', strtotime($date));
         
-        $vitals = $conn->query("
+        $stmt = $pdo->prepare("
             SELECT 
                 AVG((systolic_bp + diastolic_bp) / 2) as avg_bp,
                 AVG(temperature) as avg_temp,
                 AVG(heart_rate) as avg_hr
             FROM vital_signs 
-            WHERE DATE(recorded_at) = '$date'
-        ")->fetch_assoc();
+            WHERE DATE(recorded_at) = ?
+        ");
+        $stmt->execute([$date]);
+        $vitals = $stmt->fetch();
         
         $avgBP[] = round($vitals['avg_bp'] ?? 0, 1);
         $avgTemp[] = round($vitals['avg_temp'] ?? 0, 1);
@@ -346,12 +374,13 @@ function getVitalTrends($conn, $period) {
 }
 
 // Chart 11: Assessment Types
-function getAssessmentTypes($conn) {
-    $types = $conn->query("
+function getAssessmentTypes($pdo) {
+    $stmt = $pdo->query("
         SELECT assessment_type, COUNT(*) as count 
         FROM medical_assessments 
         GROUP BY assessment_type
-    ")->fetch_all(MYSQLI_ASSOC);
+    ");
+    $types = $stmt->fetchAll();
     
     $labels = array_column($types, 'assessment_type');
     $data = array_column($types, 'count');
@@ -367,12 +396,13 @@ function getAssessmentTypes($conn) {
 }
 
 // Chart 12: Nursing Shifts
-function getNursingShifts($conn) {
-    $shifts = $conn->query("
+function getNursingShifts($pdo) {
+    $stmt = $pdo->query("
         SELECT nursing_shift, COUNT(*) as count 
         FROM nursing_notes 
         GROUP BY nursing_shift
-    ")->fetch_all(MYSQLI_ASSOC);
+    ");
+    $shifts = $stmt->fetchAll();
     
     $labels = array_column($shifts, 'nursing_shift');
     $data = array_column($shifts, 'count');
@@ -389,14 +419,16 @@ function getNursingShifts($conn) {
 }
 
 // Chart 13: Activity Logs
-function getActivityLogs($conn, $period) {
-    $activities = $conn->query("
+function getActivityLogs($pdo, $period) {
+    $stmt = $pdo->prepare("
         SELECT logs_item_type, COUNT(*) as count 
         FROM activity_logs 
-        WHERE logs_timestamp >= DATE_SUB(NOW(), INTERVAL $period DAY)
+        WHERE logs_timestamp >= DATE_SUB(NOW(), INTERVAL ? DAY)
         AND logs_item_type IS NOT NULL
         GROUP BY logs_item_type
-    ")->fetch_all(MYSQLI_ASSOC);
+    ");
+    $stmt->execute([$period]);
+    $activities = $stmt->fetchAll();
     
     $labels = array_column($activities, 'logs_item_type');
     $data = array_column($activities, 'count');
@@ -414,7 +446,7 @@ function getActivityLogs($conn, $period) {
 }
 
 // Chart 14: Expiry Alerts
-function getExpiryAlerts($conn) {
+function getExpiryAlerts($pdo) {
     $today = date('Y-m-d');
     $alerts = [
         'Expired' => 0,
@@ -424,38 +456,42 @@ function getExpiryAlerts($conn) {
     ];
     
     // Medicine expiry alerts
-    $medAlerts = $conn->query("
+    $stmt = $pdo->prepare("
         SELECT 
             CASE 
-                WHEN medicine_expiry_date < '$today' THEN 'Expired'
-                WHEN medicine_expiry_date <= DATE_ADD('$today', INTERVAL 7 DAY) THEN 'Expiring This Week'
-                WHEN medicine_expiry_date <= DATE_ADD('$today', INTERVAL 30 DAY) THEN 'Expiring This Month'
+                WHEN medicine_expiry_date < ? THEN 'Expired'
+                WHEN medicine_expiry_date <= DATE_ADD(?, INTERVAL 7 DAY) THEN 'Expiring This Week'
+                WHEN medicine_expiry_date <= DATE_ADD(?, INTERVAL 30 DAY) THEN 'Expiring This Month'
                 ELSE 'Good'
             END as alert_type,
             COUNT(*) as count
         FROM medicines 
         WHERE medicine_expiry_date IS NOT NULL
         GROUP BY alert_type
-    ")->fetch_all(MYSQLI_ASSOC);
+    ");
+    $stmt->execute([$today, $today, $today]);
+    $medAlerts = $stmt->fetchAll();
     
     foreach ($medAlerts as $alert) {
         $alerts[$alert['alert_type']] += $alert['count'];
     }
     
     // Supply expiry alerts
-    $supAlerts = $conn->query("
+    $stmt = $pdo->prepare("
         SELECT 
             CASE 
-                WHEN supply_expiry_date < '$today' THEN 'Expired'
-                WHEN supply_expiry_date <= DATE_ADD('$today', INTERVAL 7 DAY) THEN 'Expiring This Week'
-                WHEN supply_expiry_date <= DATE_ADD('$today', INTERVAL 30 DAY) THEN 'Expiring This Month'
+                WHEN supply_expiry_date < ? THEN 'Expired'
+                WHEN supply_expiry_date <= DATE_ADD(?, INTERVAL 7 DAY) THEN 'Expiring This Week'
+                WHEN supply_expiry_date <= DATE_ADD(?, INTERVAL 30 DAY) THEN 'Expiring This Month'
                 ELSE 'Good'
             END as alert_type,
             COUNT(*) as count
         FROM supplies 
         WHERE supply_expiry_date IS NOT NULL
         GROUP BY alert_type
-    ")->fetch_all(MYSQLI_ASSOC);
+    ");
+    $stmt->execute([$today, $today, $today]);
+    $supAlerts = $stmt->fetchAll();
     
     foreach ($supAlerts as $alert) {
         $alerts[$alert['alert_type']] += $alert['count'];
@@ -472,15 +508,16 @@ function getExpiryAlerts($conn) {
 }
 
 // Chart 15: Medicine Classification
-function getMedicineClassification($conn) {
-    $classifications = $conn->query("
+function getMedicineClassification($pdo) {
+    $stmt = $pdo->query("
         SELECT medicine_classification, COUNT(*) as count 
         FROM medicines 
         WHERE medicine_classification IS NOT NULL 
         GROUP BY medicine_classification 
         ORDER BY count DESC 
         LIMIT 8
-    ")->fetch_all(MYSQLI_ASSOC);
+    ");
+    $classifications = $stmt->fetchAll();
     
     $labels = array_column($classifications, 'medicine_classification');
     $data = array_column($classifications, 'count');
@@ -500,8 +537,8 @@ function getMedicineClassification($conn) {
 }
 
 // Chart 16: Patient Demographics
-function getPatientDemographics($conn) {
-    $demographics = $conn->query("
+function getPatientDemographics($pdo) {
+    $stmt = $pdo->query("
         SELECT 
             CASE 
                 WHEN YEAR(CURDATE()) - YEAR(date_of_birth) < 18 THEN 'Under 18'
@@ -513,7 +550,8 @@ function getPatientDemographics($conn) {
             COUNT(*) as count
         FROM patients 
         GROUP BY age_group
-    ")->fetch_all(MYSQLI_ASSOC);
+    ");
+    $demographics = $stmt->fetchAll();
     
     $labels = array_column($demographics, 'age_group');
     $data = array_column($demographics, 'count');
@@ -528,6 +566,4 @@ function getPatientDemographics($conn) {
         ]]
     ];
 }
-
-$conn->close();
 ?>

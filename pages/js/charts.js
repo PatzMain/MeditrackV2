@@ -12,7 +12,7 @@ class DashboardCharts {
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.loadAllCharts());
         } else {
-            this.loadAllCharts();
+            setTimeout(() => this.loadAllCharts(), 100);
         }
         
         // Setup event listeners
@@ -32,7 +32,13 @@ class DashboardCharts {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'right' },
+                        legend: { 
+                            position: 'right',
+                            labels: {
+                                color: '#333',
+                                font: { size: 12 }
+                            }
+                        },
                         tooltip: {
                             callbacks: {
                                 label: (context) => `${context.label}: ${context.parsed} items`
@@ -50,12 +56,22 @@ class DashboardCharts {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'bottom' }
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                color: '#333',
+                                font: { size: 12 }
+                            }
+                        }
                     },
                     scales: {
                         r: {
                             beginAtZero: true,
-                            ticks: { backdropColor: 'transparent' }
+                            ticks: { 
+                                backdropColor: 'transparent',
+                                color: '#666'
+                            },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
                         }
                     }
                 }
@@ -69,10 +85,23 @@ class DashboardCharts {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: false }
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `Items: ${context.parsed.y}`
+                            }
+                        }
                     },
                     scales: {
-                        y: { beginAtZero: true }
+                        y: { 
+                            beginAtZero: true,
+                            ticks: { color: '#666' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                        },
+                        x: {
+                            ticks: { color: '#666' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                        }
                     }
                 }
             },
@@ -89,7 +118,15 @@ class DashboardCharts {
                         legend: { display: false }
                     },
                     scales: {
-                        x: { beginAtZero: true }
+                        x: { 
+                            beginAtZero: true,
+                            ticks: { color: '#666' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                        },
+                        y: {
+                            ticks: { color: '#666' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                        }
                     }
                 }
             },
@@ -105,7 +142,15 @@ class DashboardCharts {
                         legend: { display: false }
                     },
                     scales: {
-                        y: { beginAtZero: true }
+                        y: { 
+                            beginAtZero: true,
+                            ticks: { color: '#666' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                        },
+                        x: {
+                            ticks: { color: '#666' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                        }
                     },
                     elements: {
                         point: { hoverRadius: 8 }
@@ -121,7 +166,13 @@ class DashboardCharts {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'bottom' }
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                color: '#333',
+                                font: { size: 12 }
+                            }
+                        }
                     }
                 }
             },
@@ -134,7 +185,13 @@ class DashboardCharts {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'right' }
+                        legend: { 
+                            position: 'right',
+                            labels: {
+                                color: '#333',
+                                font: { size: 12 }
+                            }
+                        }
                     }
                 }
             },
@@ -150,7 +207,18 @@ class DashboardCharts {
                         legend: { display: false }
                     },
                     scales: {
-                        y: { beginAtZero: true }
+                        y: { 
+                            beginAtZero: true,
+                            ticks: { color: '#666' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                        },
+                        x: {
+                            ticks: { 
+                                color: '#666',
+                                maxRotation: 45
+                            },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                        }
                     }
                 }
             },
@@ -163,7 +231,13 @@ class DashboardCharts {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'bottom' }
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                color: '#333',
+                                font: { size: 12 }
+                            }
+                        }
                     }
                 }
             },
@@ -181,13 +255,20 @@ class DashboardCharts {
                         y: {
                             type: 'linear',
                             display: true,
-                            position: 'left'
+                            position: 'left',
+                            ticks: { color: '#666' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
                         },
                         y1: {
                             type: 'linear',
                             display: true,
                             position: 'right',
+                            ticks: { color: '#666' },
                             grid: { drawOnChartArea: false }
+                        },
+                        x: {
+                            ticks: { color: '#666' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
                         }
                     }
                 }
@@ -207,7 +288,11 @@ class DashboardCharts {
                     scales: {
                         r: {
                             beginAtZero: true,
-                            ticks: { backdropColor: 'transparent' }
+                            ticks: { 
+                                backdropColor: 'transparent',
+                                color: '#666'
+                            },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
                         }
                     }
                 }
@@ -221,7 +306,13 @@ class DashboardCharts {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'bottom' }
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                color: '#333',
+                                font: { size: 12 }
+                            }
+                        }
                     }
                 }
             },
@@ -238,7 +329,15 @@ class DashboardCharts {
                         legend: { display: false }
                     },
                     scales: {
-                        y: { beginAtZero: true }
+                        y: { 
+                            beginAtZero: true,
+                            ticks: { color: '#666' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                        },
+                        x: {
+                            ticks: { color: '#666' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                        }
                     }
                 }
             },
@@ -251,7 +350,13 @@ class DashboardCharts {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'bottom' }
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                color: '#333',
+                                font: { size: 12 }
+                            }
+                        }
                     },
                     cutout: '60%'
                 }
@@ -269,7 +374,15 @@ class DashboardCharts {
                         legend: { display: false }
                     },
                     scales: {
-                        x: { beginAtZero: true }
+                        x: { 
+                            beginAtZero: true,
+                            ticks: { color: '#666' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                        },
+                        y: {
+                            ticks: { color: '#666' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                        }
                     }
                 }
             },
@@ -282,7 +395,13 @@ class DashboardCharts {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'bottom' }
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                color: '#333',
+                                font: { size: 12 }
+                            }
+                        }
                     }
                 }
             }
@@ -290,9 +409,16 @@ class DashboardCharts {
     }
 
     async loadAllCharts() {
-        const chartPromises = Object.keys(this.chartConfigs).map(chartId => 
-            this.loadChart(chartId)
-        );
+        console.log('Starting to load all charts...');
+        
+        const chartPromises = Object.keys(this.chartConfigs).map(async (chartId) => {
+            try {
+                await this.loadChart(chartId);
+                console.log(`Chart ${chartId} loaded successfully`);
+            } catch (error) {
+                console.error(`Error loading chart ${chartId}:`, error);
+            }
+        });
         
         try {
             await Promise.all(chartPromises);
@@ -311,12 +437,15 @@ class DashboardCharts {
             return;
         }
 
+        console.log(`Loading chart: ${chartId}`);
         this.showLoading(chartId);
 
         try {
             const period = this.getFilterValue(chartId, 'period') || '30';
             const data = await this.fetchChartData(config.endpoint, { period });
             
+            console.log(`Data for ${chartId}:`, data);
+
             // Destroy existing chart if it exists
             if (this.charts[chartId]) {
                 this.charts[chartId].destroy();
@@ -366,12 +495,25 @@ class DashboardCharts {
             url.searchParams.append(key, params[key]);
         });
 
+        console.log(`Fetching data from: ${url}`);
+
         const response = await fetch(url);
+        
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        const data = await response.json();
+        const text = await response.text();
+        console.log('Raw response:', text);
+        
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch (e) {
+            console.error('JSON parse error:', e);
+            throw new Error('Invalid JSON response from server');
+        }
+        
         if (data.error) {
             throw new Error(data.error);
         }
@@ -383,6 +525,8 @@ class DashboardCharts {
         const container = document.querySelector(`#${chartId}Chart`)?.closest('.chart-container');
         if (container) {
             container.classList.add('loading');
+            const originalContent = container.innerHTML;
+            container.setAttribute('data-original-content', originalContent);
             container.innerHTML = `
                 <div class="chart-loading">
                     <div class="chart-loading-spinner"></div>
@@ -408,11 +552,12 @@ class DashboardCharts {
         if (container) {
             container.innerHTML = `
                 <div class="chart-error">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    <svg viewBox="0 0 24 24" fill="currentColor" style="width: 48px; height: 48px; color: #f44336;">
+                        <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
                     </svg>
                     <p>Error loading chart</p>
                     <small>${message}</small>
+                    <button onclick="dashboardCharts.loadChart('${chartId}')" style="margin-top: 10px; padding: 5px 10px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Retry</button>
                 </div>
             `;
         }
@@ -463,10 +608,12 @@ class DashboardCharts {
         // Refresh button handlers
         document.addEventListener('click', async (e) => {
             if (e.target.matches('.chart-refresh-btn') || e.target.closest('.chart-refresh-btn')) {
+                e.preventDefault();
                 const chartCard = e.target.closest('[data-chart]');
                 if (chartCard) {
                     const chartId = chartCard.getAttribute('data-chart');
                     await this.loadChart(chartId);
+                    this.showNotification(`Chart ${chartId} refreshed successfully`, 'success');
                 }
             }
         });
@@ -474,6 +621,7 @@ class DashboardCharts {
         // Export button handlers
         document.addEventListener('click', (e) => {
             if (e.target.matches('.chart-export-btn') || e.target.closest('.chart-export-btn')) {
+                e.preventDefault();
                 const chartCard = e.target.closest('[data-chart]');
                 if (chartCard) {
                     const chartId = chartCard.getAttribute('data-chart');
@@ -516,31 +664,44 @@ class DashboardCharts {
     }
 
     async refreshAllCharts() {
-        const refreshPromises = Object.keys(this.charts).map(chartId => 
-            this.loadChart(chartId)
-        );
+        console.log('Refreshing all charts...');
+        const refreshPromises = Object.keys(this.charts).map(async (chartId) => {
+            try {
+                await this.loadChart(chartId);
+            } catch (error) {
+                console.error(`Error refreshing chart ${chartId}:`, error);
+            }
+        });
         
         try {
             await Promise.all(refreshPromises);
-            this.showNotification('Charts refreshed successfully', 'success');
+            this.showNotification('All charts refreshed successfully', 'success');
         } catch (error) {
-            this.showNotification('Error refreshing charts', 'error');
+            this.showNotification('Error refreshing some charts', 'error');
         }
     }
 
     exportChart(chartId) {
         const chart = this.charts[chartId];
-        if (!chart) return;
+        if (!chart) {
+            this.showNotification(`Chart ${chartId} not found`, 'error');
+            return;
+        }
 
-        const link = document.createElement('a');
-        link.download = `${chartId}-chart.png`;
-        link.href = chart.toBase64Image();
-        link.click();
+        try {
+            const link = document.createElement('a');
+            link.download = `${chartId}-chart.png`;
+            link.href = chart.toBase64Image();
+            link.click();
+            this.showNotification(`Chart ${chartId} exported successfully`, 'success');
+        } catch (error) {
+            this.showNotification(`Error exporting chart ${chartId}`, 'error');
+        }
     }
 
     exportAllCharts() {
-        Object.keys(this.charts).forEach(chartId => {
-            setTimeout(() => this.exportChart(chartId), 100 * Object.keys(this.charts).indexOf(chartId));
+        Object.keys(this.charts).forEach((chartId, index) => {
+            setTimeout(() => this.exportChart(chartId), 100 * index);
         });
     }
 
@@ -579,6 +740,10 @@ class DashboardCharts {
     }
 
     showNotification(message, type = 'info') {
+        // Remove existing notifications
+        const existingNotifications = document.querySelectorAll('.chart-notification');
+        existingNotifications.forEach(n => n.remove());
+
         const notification = document.createElement('div');
         notification.className = `chart-notification ${type}`;
         notification.innerHTML = `
@@ -654,6 +819,7 @@ class DashboardCharts {
 let dashboardCharts;
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, initializing charts...');
     dashboardCharts = new DashboardCharts();
 });
 
