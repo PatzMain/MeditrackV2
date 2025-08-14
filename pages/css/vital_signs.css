@@ -1,0 +1,296 @@
+/* Vital Signs Specific Styles */
+
+/* Patient Info Styling */
+.patient-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.patient-number {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 12px;
+}
+
+.patient-name {
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.room-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    background: rgba(15, 123, 15, 0.1);
+    color: var(--primary-color);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+/* Vital Signs Grid in Modal */
+.vital-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.detail-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.detail-section.full-width {
+    grid-column: span 2;
+}
+
+.detail-section h3 {
+    margin: 0 0 15px 0;
+    color: var(--primary-color);
+    font-size: 16px;
+    font-weight: 600;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* Form Section Titles */
+.form-section-title {
+    color: var(--primary-color);
+    font-size: 16px;
+    font-weight: 600;
+    margin: 25px 0 15px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(15, 123, 15, 0.2);
+}
+
+.form-section-title:first-of-type {
+    margin-top: 10px;
+}
+
+/* Input Group for Temperature */
+.input-group {
+    display: flex;
+    gap: 5px;
+}
+
+.input-group .form-input:first-child {
+    flex: 1;
+}
+
+.input-group select {
+    width: 80px !important;
+}
+
+/* Not Recorded Indicator */
+.not-recorded {
+    color: #999;
+    font-style: italic;
+    font-size: 13px;
+}
+
+/* Real-time Validation Styling */
+.input-normal {
+    border-color: #28a745 !important;
+    background-color: rgba(40, 167, 69, 0.05);
+}
+
+.input-warning {
+    border-color: #ffc107 !important;
+    background-color: rgba(255, 193, 7, 0.05);
+}
+
+.input-critical {
+    border-color: #dc3545 !important;
+    background-color: rgba(220, 53, 69, 0.05);
+}
+
+/* Vital Signs Value Display */
+.vital-normal {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.vital-warning {
+    color: #ff9800;
+    font-weight: 600;
+}
+
+.vital-critical {
+    color: #dc3545;
+    font-weight: 700;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Pain Scale Display */
+.pain-scale {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.pain-scale.low {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+}
+
+.pain-scale.moderate {
+    background: rgba(255, 193, 7, 0.1);
+    color: #ff9800;
+}
+
+.pain-scale.high {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+/* Filter Group Enhancement */
+.filter-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.filter-select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    font-size: 14px;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(15, 123, 15, 0.1);
+}
+
+/* Vital Signs Table Enhancements */
+.data-table th {
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+.vital-signs-cell {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+/* Consciousness Level Badges */
+.consciousness-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.consciousness-badge.alert {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+}
+
+.consciousness-badge.drowsy {
+    background: rgba(255, 193, 7, 0.1);
+    color: #ff9800;
+}
+
+.consciousness-badge.confused {
+    background: rgba(255, 152, 0, 0.1);
+    color: #ff6f00;
+}
+
+.consciousness-badge.unconscious {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .vital-details-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .detail-section.full-width {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .filter-group {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .filter-select {
+        width: 100%;
+    }
+    
+    .data-table {
+        font-size: 12px;
+    }
+    
+    .vital-signs-cell {
+        font-size: 12px;
+    }
+    
+    .patient-info {
+        font-size: 12px;
+    }
+    
+    .action-btn {
+        padding: 6px;
+    }
+    
+    .action-btn svg {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .sidebar,
+    .table-actions,
+    .action-btn,
+    .modal {
+        display: none !important;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding: 20px;
+    }
+    
+    .stats-cards {
+        page-break-inside: avoid;
+    }
+    
+    .data-table {
+        page-break-inside: auto;
+    }
+    
+    .data-table tr {
+        page-break-inside: avoid;
+    }
+}
