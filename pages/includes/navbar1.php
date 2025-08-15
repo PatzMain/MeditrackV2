@@ -21,9 +21,8 @@ $currentPage = basename(dirname($_SERVER['PHP_SELF']));
         </a>
 
         <!-- Patient Monitoring Dropdown -->
-        <div
-            class="nav-dropdown <?php if (in_array($currentPage, ['patient_consultation', 'vital_signs', 'medical_records', 'nursing_notes']))
-                echo 'active'; ?>">
+        <div class="nav-dropdown <?php if (in_array($currentPage, ['patient_consultation', 'vital_signs', 'medical_records', 'nursing_notes']))
+            echo 'active'; ?>">
             <a href="#" class="nav-item dropdown-toggle" onclick="toggleDropdown(event)">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -35,19 +34,15 @@ $currentPage = basename(dirname($_SERVER['PHP_SELF']));
                 </svg>
             </a>
             <div class="dropdown-content">
-                <a href="../patient_monitoring/patient_consultation/"
-                    class="<?php if ($currentPage === 'patient_consultation')
-                        echo 'active'; ?>">Patient
+                <a href="../patient_monitoring/patient_consultation/" class="<?php if ($currentPage === 'patient_consultation')
+                    echo 'active'; ?>">Patient
                     Consultation</a>
-                <a href="../patient_monitoring/vital_signs/"
-                    class="<?php if ($currentPage === 'vital_signs')
-                        echo 'active'; ?>">Vital Signs</a>
-                <a href="../patient_monitoring/medical_records/"
-                    class="<?php if ($currentPage === 'medical_records')
-                        echo 'active'; ?>">Medical Records</a>
-                <a href="../patient_monitoring/nursing_notes/"
-                    class="<?php if ($currentPage === 'nursing_notes')
-                        echo 'active'; ?>">Nursing Notes</a>
+                <a href="../patient_monitoring/vital_signs/" class="<?php if ($currentPage === 'vital_signs')
+                    echo 'active'; ?>">Vital Signs</a>
+                <a href="../patient_monitoring/medical_records/" class="<?php if ($currentPage === 'medical_records')
+                    echo 'active'; ?>">Medical Records</a>
+                <a href="../patient_monitoring/nursing_notes/" class="<?php if ($currentPage === 'nursing_notes')
+                    echo 'active'; ?>">Nursing Notes</a>
             </div>
         </div>
 

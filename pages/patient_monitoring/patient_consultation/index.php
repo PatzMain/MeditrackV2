@@ -9,12 +9,7 @@ include '../../../api/patient_consultation.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MediTrack - Patient Consultation</title>
-    <link rel="stylesheet" href="../../css/pages.css">
-    <link rel="stylesheet" href="../../css/navbar.css">
-    <link rel="stylesheet" href="../../css/cards.css">
-    <link rel="stylesheet" href="../../css/table.css">
-    <link rel="stylesheet" href="../../css/search.css">
-    <link rel="stylesheet" href="../../css/modal.css">
+    <?php include '../../includes/styles2.php'; ?>
 </head>
 
 <body>
