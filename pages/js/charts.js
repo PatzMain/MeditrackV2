@@ -488,7 +488,9 @@ class DashboardCharts {
     }
 
     async fetchChartData(endpoint, params = {}) {
-        const url = new URL('../../api/dashboard_charts.php', window.location);
+        // Use absolute path instead of relative path to avoid path resolution issues
+        const baseUrl = window.location.origin + window.location.pathname.split('/').slice(0, -2).join('/') + '/api/dashboard_charts.php';
+        const url = new URL(baseUrl);
         url.searchParams.append('chart', endpoint);
         
         Object.keys(params).forEach(key => {

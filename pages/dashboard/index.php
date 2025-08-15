@@ -18,6 +18,7 @@ include '../../api/dashboard.php';
     <link rel="stylesheet" href="../css/charts.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-adapter-date-fns/3.0.0/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="../js/charts.js"></script>
 </head>
 
 <body>
@@ -650,7 +651,6 @@ include '../../api/dashboard.php';
     </style>
 
     <!-- Scripts -->
-    <script src="../js/charts.js"></script>
     <script src="../js/navbar.js"></script>
     <script>
         // Additional dashboard functions

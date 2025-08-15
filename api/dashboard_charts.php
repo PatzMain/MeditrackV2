@@ -1,6 +1,6 @@
 <?php
 // api/dashboard_charts.php
-include 'auth.php';
+include __DIR__ . '/../api/auth.php';
 
 // Database connection using PDO
 try {
