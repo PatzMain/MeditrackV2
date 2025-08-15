@@ -1,148 +1,235 @@
 <?php
-// medicines.config.php
-// Table configuration and rendering for medicines list
+/**
+ * Table Configuration File
+ * Defines table structures, columns, and display settings for all data tables
+ */
 
-if (!function_exists('getExpiryClass')) {
-    function getExpiryClass($date) {
-        $now = strtotime('today');
-        $expiry = strtotime($date);
-        if (!$expiry) return 'invalid-date';
-        if ($expiry < $now) return 'expired';
-        if ($expiry <= strtotime('+30 days')) return 'near-expiry';
-        return 'valid';
-    }
-}
-
-$config = [
-    'medicines' => [
-        'thClass' => 'table-header', // Base class for all table headers
+return [
+    'medical_medicines' => [
+        'table_name' => 'medical_medicines',
+        'primary_key' => 'medicine_id',
+        'display_name' => 'Medical Medicines',
+        'icon' => 'fa-pills',
         'columns' => [
-            [
+            'medicine_id' => [
+                'label' => 'ID',
+                'type' => 'integer',
+                'sortable' => true,
+                'searchable' => false,
+                'visible' => false,
+                'editable' => false
+            ],
+            'medicine_name' => [
                 'label' => 'Medicine Name',
-                'key' => 'medicine_name',
+                'type' => 'text',
                 'sortable' => true,
-                'callback' => function ($value, $row) {
-                    $html = '<a href="#" class="medicine-name-link" 
-                                onclick=\'showDescription(event, ' . json_encode($row, JSON_HEX_APOS | JSON_HEX_QUOT) . ')\'>' 
-                                . htmlspecialchars($value ?: 'N/A') . '</a>';
-                    if (!empty($row['medicine_brand_name'])) {
-                        $html .= '<div class="medicine-brand">' . htmlspecialchars($row['medicine_brand_name']) . '</div>';
-                    }
-                    return $html;
-                }
+                'searchable' => true,
+                'visible' => true,
+                'editable' => true,
+                'required' => true,
+                'width' => '20%',
+                'class' => 'medicine-name'
             ],
-            [
-                'label' => 'Type',
-                'key' => 'medicine_type',
+            'medicine_brand_name' => [
+                'label' => 'Brand Name',
+                'type' => 'text',
                 'sortable' => true,
-                'callback' => function ($value) {
-                    return '<span class="type-badge ' . strtolower($value) . '">' 
-                            . htmlspecialchars($value ?: 'N/A') . '</span>';
-                }
+                'searchable' => true,
+                'visible' => true,
+                'editable' => true,
+                'width' => '15%'
             ],
-            [
+            'medicine_generic_name' => [
+                'label' => 'Generic Name',
+                'type' => 'text',
+                'sortable' => true,
+                'searchable' => true,
+                'visible' => true,
+                'editable' => true,
+                'width' => '15%'
+            ],
+            'medicine_classification' => [
+                'label' => 'Classification',
+                'type' => 'enum',
+                'sortable' => true,
+                'searchable' => true,
+                'visible' => true,
+                'editable' => true,
+                'width' => '12%',
+                'options' => [
+                    'Antibiotic' => 'Antibiotic',
+                    'Analgesic' => 'Analgesic',
+                    'Antipyretic' => 'Antipyretic',
+                    'Antihistamine' => 'Antihistamine',
+                    'Antiseptic' => 'Antiseptic',
+                    'Antifungal' => 'Antifungal',
+                    'Antiviral' => 'Antiviral',
+                    'Vaccine' => 'Vaccine',
+                    'Supplement' => 'Supplement',
+                    'Cough Suppressant' => 'Cough Suppressant',
+                    'Decongestant' => 'Decongestant',
+                    'Anti-inflammatory' => 'Anti-inflammatory',
+                    'Antacid' => 'Antacid',
+                    'Laxative' => 'Laxative',
+                    'Other' => 'Other'
+                ],
+                'badge' => true,
+                'badge_colors' => [
+                    'Antibiotic' => 'danger',
+                    'Analgesic' => 'primary',
+                    'Antipyretic' => 'warning',
+                    'Antihistamine' => 'info',
+                    'Antiseptic' => 'success',
+                    'Antifungal' => 'secondary',
+                    'Antiviral' => 'purple',
+                    'Vaccine' => 'pink',
+                    'Supplement' => 'green',
+                    'Other' => 'dark'
+                ]
+            ],
+            'medicine_dosage' => [
                 'label' => 'Dosage',
-                'key' => 'medicine_dosage',
-                'sortable' => false,
-                'callback' => function ($value, $row) {
-                    return htmlspecialchars($value ?: 'N/A') . 
-                           (!empty($row['medicine_unit']) ? ' ' . htmlspecialchars($row['medicine_unit']) : '');
-                }
+                'type' => 'text',
+                'sortable' => true,
+                'searchable' => false,
+                'visible' => true,
+                'editable' => true,
+                'width' => '10%'
             ],
-            [
+            'medicine_unit' => [
+                'label' => 'Unit',
+                'type' => 'text',
+                'sortable' => true,
+                'searchable' => false,
+                'visible' => true,
+                'editable' => true,
+                'width' => '8%'
+            ],
+            'medicine_stock' => [
                 'label' => 'Stock',
-                'key' => 'medicine_stock',
+                'type' => 'integer',
                 'sortable' => true,
-                'callback' => function ($value, $row) {
-                    $stock = $value ?? 0;
-                    $stockClass = $stock <= 10 ? 'low-stock' : '';
-                    return '<span class="stock-count ' . $stockClass . '">' . $stock . '</span> ' .
-                           '<span class="stock-unit">' . (!empty($row['medicine_unit']) ? htmlspecialchars($row['medicine_unit']) : 'units') . '</span>';
-                }
+                'searchable' => false,
+                'visible' => true,
+                'editable' => true,
+                'width' => '8%',
+                'class' => 'text-center',
+                'format' => 'stock_status',
+                'low_stock_threshold' => 20
             ],
-            [
+            'medicine_expiry_date' => [
                 'label' => 'Expiry Date',
-                'key' => 'medicine_expiry_date',
+                'type' => 'date',
                 'sortable' => true,
-                'callback' => function ($value) {
-                    if (empty($value)) return 'N/A';
-                    return '<span class="expiry-date ' . getExpiryClass($value) . '">' 
-                            . date('M d, Y', strtotime($value)) . '</span>';
-                }
+                'searchable' => false,
+                'visible' => true,
+                'editable' => true,
+                'width' => '12%',
+                'format' => 'expiry_status'
             ],
-        ],
-        'actions' => [
-            [
-                'label' => 'Edit',
-                'icon' => '✏️',
-                'onclick' => function ($row) {
-                    return "editMedicine({$row['medicine_id']})";
-                }
+            'medicine_description' => [
+                'label' => 'Description',
+                'type' => 'textarea',
+                'sortable' => false,
+                'searchable' => true,
+                'visible' => false,
+                'editable' => true
             ],
-            [
-                'label' => 'Delete',
-                'icon' => '🗑',
-                'onclick' => function ($row) {
-                    return "deleteMedicine({$row['medicine_id']})";
-                }
+            'created_at' => [
+                'label' => 'Created',
+                'type' => 'datetime',
+                'sortable' => true,
+                'searchable' => false,
+                'visible' => false,
+                'editable' => false,
+                'format' => 'datetime'
             ]
         ],
-        'emptyMessage' => 'No medicines found'
+        'actions' => [
+            'view' => [
+                'label' => 'View',
+                'icon' => 'fa-eye',
+                'class' => 'btn-info btn-sm',
+                'modal' => true
+            ],
+            'edit' => [
+                'label' => 'Edit',
+                'icon' => 'fa-edit',
+                'class' => 'btn-warning btn-sm',
+                'modal' => true
+            ],
+            'delete' => [
+                'label' => 'Delete',
+                'icon' => 'fa-trash',
+                'class' => 'btn-danger btn-sm',
+                'confirm' => true,
+                'confirm_message' => 'Are you sure you want to delete this medicine?'
+            ],
+            'stock_in' => [
+                'label' => 'Stock In',
+                'icon' => 'fa-plus-circle',
+                'class' => 'btn-success btn-sm',
+                'modal' => true
+            ],
+            'stock_out' => [
+                'label' => 'Stock Out',
+                'icon' => 'fa-minus-circle',
+                'class' => 'btn-primary btn-sm',
+                'modal' => true
+            ]
+        ],
+        'filters' => [
+            'classification' => [
+                'label' => 'Classification',
+                'type' => 'select',
+                'options' => 'medicine_classification'
+            ],
+            'stock_status' => [
+                'label' => 'Stock Status',
+                'type' => 'select',
+                'options' => [
+                    'all' => 'All',
+                    'in_stock' => 'In Stock',
+                    'low_stock' => 'Low Stock',
+                    'out_of_stock' => 'Out of Stock'
+                ]
+            ],
+            'expiry_status' => [
+                'label' => 'Expiry Status',
+                'type' => 'select',
+                'options' => [
+                    'all' => 'All',
+                    'valid' => 'Valid',
+                    'expiring_soon' => 'Expiring Soon (30 days)',
+                    'expired' => 'Expired'
+                ]
+            ]
+        ],
+        'bulk_actions' => [
+            'export' => [
+                'label' => 'Export Selected',
+                'icon' => 'fa-download',
+                'class' => 'btn-primary'
+            ],
+            'delete' => [
+                'label' => 'Delete Selected',
+                'icon' => 'fa-trash',
+                'class' => 'btn-danger',
+                'confirm' => true
+            ]
+        ],
+        'default_sort' => [
+            'column' => 'medicine_name',
+            'direction' => 'ASC'
+        ],
+        'items_per_page' => [10, 25, 50, 100],
+        'default_items_per_page' => 25,
+        'enable_search' => true,
+        'enable_filters' => true,
+        'enable_export' => true,
+        'enable_import' => true,
+        'enable_bulk_actions' => true,
+        'enable_pagination' => true
     ]
 ];
-
-/**
- * Render the medicines table
- */
-if (!function_exists('renderMedicinesTable')) {
-    function renderMedicinesTable(array $data, array $tableConfig)
-    {
-        echo "<table class='medicines-table'>";
-        echo "<thead><tr>";
-
-        // Table headers
-        foreach ($tableConfig['columns'] as $col) {
-            $classes = [$tableConfig['thClass']];
-            if (!empty($col['sortable'])) {
-                $classes[] = 'sortable';
-            }
-            echo "<th class='" . implode(' ', $classes) . "'>{$col['label']}</th>";
-        }
-
-        // Actions header
-        if (!empty($tableConfig['actions'])) {
-            echo "<th class='{$tableConfig['thClass']}'>Actions</th>";
-        }
-
-        echo "</tr></thead>";
-        echo "<tbody>";
-
-        if (empty($data)) {
-            echo "<tr><td colspan='" . (count($tableConfig['columns']) + 1) . "' class='empty-message'>{$tableConfig['emptyMessage']}</td></tr>";
-        } else {
-            foreach ($data as $row) {
-                echo "<tr>";
-                foreach ($tableConfig['columns'] as $col) {
-                    $value = $row[$col['key']] ?? null;
-                    echo "<td>" . call_user_func($col['callback'], $value, $row) . "</td>";
-                }
-
-                // Actions
-                if (!empty($tableConfig['actions'])) {
-                    echo "<td class='table-actions'>";
-                    foreach ($tableConfig['actions'] as $action) {
-                        $onclick = call_user_func($action['onclick'], $row);
-                        echo "<button onclick=\"$onclick\">{$action['icon']} {$action['label']}</button> ";
-                    }
-                    echo "</td>";
-                }
-
-                echo "</tr>";
-            }
-        }
-
-        echo "</tbody></table>";
-    }
-}
-
-return $config;
+?>

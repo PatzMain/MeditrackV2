@@ -34,12 +34,6 @@ CREATE TABLE medical_medicines (
     medicine_unit VARCHAR(50),
     medicine_stock INT DEFAULT 0,
     medicine_expiry_date DATE,
-    lot_batch_no VARCHAR(50),
-    delivery_date DATE,
-    outgoing_date DATE,
-    items_delivered INT,
-    items_taken INT,
-    remaining_balance INT,
     medicine_classification ENUM(
         'Antibiotic', 'Analgesic', 'Antipyretic', 'Antihistamine', 'Antiseptic',
         'Antifungal', 'Antiviral', 'Vaccine', 'Supplement', 'Cough Suppressant',
@@ -59,12 +53,6 @@ CREATE TABLE dental_medicines (
     medicine_unit VARCHAR(50),
     medicine_stock INT DEFAULT 0,
     medicine_expiry_date DATE,
-    lot_batch_no VARCHAR(50),
-    delivery_date DATE,
-    outgoing_date DATE,
-    items_delivered INT,
-    items_taken INT,
-    remaining_balance INT,
     medicine_classification ENUM(
         'Fluoride Treatment', 'Local Anesthetic', 'Desensitizing Agent',
         'Dental Antibiotic', 'Mouth Rinse', 'Topical Analgesic', 'Oral Antifungal',
@@ -83,12 +71,6 @@ CREATE TABLE medical_supplies (
     supply_quantity INT DEFAULT 0,
     supply_unit VARCHAR(50),
     supply_expiry_date DATE,
-    lot_batch_no VARCHAR(50),
-    delivery_date DATE,
-    outgoing_date DATE,
-    items_delivered INT,
-    items_taken INT,
-    remaining_balance INT,
     supply_classification ENUM(
         'Syringe', 'Gloves', 'Bandage', 'Cotton', 'Alcohol Swab',
         'Face Mask', 'IV Set', 'Thermometer Cover', 'Disinfectant', 'Protective Gown', 'Other'
@@ -105,12 +87,6 @@ CREATE TABLE dental_supplies (
     supply_quantity INT DEFAULT 0,
     supply_unit VARCHAR(50),
     supply_expiry_date DATE,
-    lot_batch_no VARCHAR(50),
-    delivery_date DATE,
-    outgoing_date DATE,
-    items_delivered INT,
-    items_taken INT,
-    remaining_balance INT,
     supply_classification ENUM(
         'Dental Bib', 'Cotton Roll', 'Dental Floss', 'Dental Impression Material',
         'Saliva Ejector', 'Dental Tray Cover', 'Disinfectant', 'Protective Gown', 'Other'

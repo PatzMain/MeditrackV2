@@ -1,60 +1,5 @@
 <?php
 include '../../api/medicines.php';
-
-// Get search and filter parameters
-$search = $_GET['search'] ?? '';
-$filter = $_GET['filter'] ?? 'all';
-$sort = $_GET['sort'] ?? 'medicine_name';
-$direction = $_GET['direction'] ?? 'asc';
-
-// Validate sort column and direction
-$allowed_columns = ['medicine_name', 'medicine_type', 'medicine_stock', 'medicine_expiry_date'];
-$sort = in_array($sort, $allowed_columns) ? $sort : 'medicine_name';
-$direction = ($direction === 'desc') ? 'DESC' : 'ASC';
-
-// Build WHERE clause
-$where_conditions = [];
-$params = [];
-
-if (!empty($search)) {
-    $where_conditions[] = "(medicine_name LIKE ? OR medicine_generic_name LIKE ? OR medicine_brand_name LIKE ? OR medicine_type LIKE ?)";
-    $search_param = "%$search%";
-    $params = array_merge($params, [$search_param, $search_param, $search_param, $search_param]);
-}
-
-// Filter conditions
-switch ($filter) {
-    case 'low-stock':
-        $where_conditions[] = "medicine_stock <= 10";
-        break;
-    case 'expired':
-        $where_conditions[] = "medicine_expiry_date < CURDATE()";
-        break;
-    case 'expiring-soon':
-        $where_conditions[] = "medicine_expiry_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)";
-        break;
-}
-
-$where_clause = '';
-if (!empty($where_conditions)) {
-    $where_clause = 'WHERE ' . implode(' AND ', $where_conditions);
-}
-
-// Get medicines
-$sql = "SELECT * FROM medicines $where_clause ORDER BY $sort $direction";
-$stmt = $pdo->prepare($sql);
-$stmt->execute($params);
-$medicines = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Get statistics
-$stats_sql = "SELECT 
-    COUNT(*) as total,
-    SUM(CASE WHEN medicine_stock <= 10 THEN 1 ELSE 0 END) as low_stock,
-    SUM(CASE WHEN medicine_expiry_date < CURDATE() THEN 1 ELSE 0 END) as expired,
-    SUM(CASE WHEN medicine_expiry_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY) THEN 1 ELSE 0 END) as expiring_soon
-FROM medicines";
-$stats_stmt = $pdo->query($stats_sql);
-$stats = $stats_stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -107,32 +52,8 @@ $stats = $stats_stmt->fetch(PDO::FETCH_ASSOC);
 
             <!-- Medicine Table -->
             <?php
-            $config = include '../../config/table_config.php';
-            $data = [
-                [
-                    'medicine_id' => 1,
-                    'medicine_name' => 'Paracetamol',
-                    'medicine_brand_name' => 'Biogesic',
-                    'medicine_type' => 'Tablet',
-                    'medicine_dosage' => '500',
-                    'medicine_unit' => 'mg',
-                    'medicine_stock' => 25,
-                    'medicine_expiry_date' => '2025-12-01'
-                ],
-                [
-                    'medicine_id' => 2,
-                    'medicine_name' => 'Amoxicillin',
-                    'medicine_brand_name' => 'Amoxil',
-                    'medicine_type' => 'Capsule',
-                    'medicine_dosage' => '250',
-                    'medicine_unit' => 'mg',
-                    'medicine_stock' => 5,
-                    'medicine_expiry_date' => '2025-08-20'
-                ]
-            ];
-
-            renderMedicinesTable($data, $config['medicines']);
-
+            $tableKey = 'medical_medicines';
+            include '../includes/render_table.php';
             ?>
         </main>
     </div>
