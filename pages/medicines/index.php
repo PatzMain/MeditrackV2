@@ -1,5 +1,35 @@
 <?php
-include '../../api/medicines.php';
+include '../../api/auth.php';
+// Include the required files
+require_once '../../api/TableRenderer.php';
+require_once '../../api/TableFetcher.php';
+
+$config = include '../../config/medicines_table.php'; // Your configuration array
+// Get request parameters
+$params = [
+    'sort_column' => $_GET['sort_column'] ?? $config['medical_medicines']['default_sort']['column'],
+    'sort_direction' => $_GET['sort_direction'] ?? $config['medical_medicines']['default_sort']['direction'],
+    'search_query' => $_GET['search_query'] ?? '',
+    'page' => isset($_GET['page']) ? (int)$_GET['page'] : 1,
+    'items_per_page' => isset($_GET['items_per_page']) ? (int)$_GET['items_per_page'] : 10
+];
+
+// Initialize classes
+$fetcher = new TableFetcher($pdo, $config);
+$renderer = new TableRenderer($config);
+
+// Fetch data
+try {
+    $result = $fetcher->fetchTableData('medical_medicines', $params);
+    $data = $result['data'];
+    $pagination = $result['pagination'];
+    $activeFilters = $result['filters'];
+} catch (Exception $e) {
+    $data = [];
+    $pagination = ['current_page' => 1, 'total_pages' => 1, 'total_records' => 0];
+    $activeFilters = [];
+    $error_message = "Error fetching data: " . $e->getMessage();
+}
 ?>
 
 <!DOCTYPE html>

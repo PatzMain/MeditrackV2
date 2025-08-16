@@ -1,15 +1,9 @@
 <?php
+include '../../api/auth.php';
 // Include the config file
 $config = include '../../config/table_config.php';
 $table = $config[$tableKey];
-/** 
- * Example: get data from your database
- * Replace this with your real query
- */
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=meditrack_system;charset=utf8", "root", "");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     $stmt = $pdo->query("SELECT * FROM {$table['table_name']} ORDER BY {$table['default_sort']['column']} {$table['default_sort']['direction']}");
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
