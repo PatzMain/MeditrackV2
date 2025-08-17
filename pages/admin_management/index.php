@@ -105,7 +105,7 @@ $stats = $stats_result->fetch(PDO::FETCH_ASSOC);
         <!-- Sidebar -->
         <?php
         $currentPage = 'admin_management';
-        include '../includes/navbar1.php'; 
+        include '../includes/navbar.php'; 
         ?>
 
         <!-- Main Content -->

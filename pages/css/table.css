@@ -1,7 +1,9 @@
 /* ===========================
    Table Styles
    =========================== */
-
+i{
+    color: #000000;
+}
 /* Container */
 .table-container {
     background: #ffffff;

@@ -5,7 +5,7 @@
  */
 
 // Include required files
-require_once '../../api/connection.php';
+require_once '../../api/auth.php';
 require_once '../../api/table_config.php'; // Adjust path as necessary
 require_once '../../api/TableLayout.php';
 
@@ -36,15 +36,117 @@ $tableLayout = new TableLayout($tableName, [
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medicine Inventory - Health Center Management System</title>
     <?php include '../includes/styles.php'; ?>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Sortable column styles (matching sort.js naming conventions) */
+        th.sortable {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+        
+        th.sortable .th-inner {
+            display: inline-block;
+        }
+        
+        th.sortable .sort-icon {
+            opacity: 0.4;
+            transition: opacity 0.3s;
+        }
+        
+        th.sortable:hover .sort-icon {
+            opacity: 0.7;
+        }
+        
+        th.sortable.asc .sort-icon,
+        th.sortable.desc .sort-icon {
+            opacity: 1;
+            color: #0d6efd;
+        }
+        
+        /* Loading overlay */
+        .table-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .table-container {
+            position: relative;
+            min-height: 300px;
+        }
+        
+        /* Responsive table wrapper */
+        .table-responsive {
+            border-radius: 0.375rem;
+            border: 1px solid #dee2e6;
+        }
+        
+        /* Filter card */
+        .table-filters .card {
+            border: 1px solid #dee2e6;
+            box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+        }
+        
+        /* Bulk actions */
+        .bulk-actions {
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Action buttons */
+        .btn-group .btn {
+            padding: 0.25rem 0.5rem; 
+        }
+        
+        /* Pagination */
+        .pagination {
+            margin-bottom: 0;
+        }
+        
+        /* Row hover effect */
+        .table-hover tbody tr:hover {
+            background-color: rgba(0,0,0,0.02);
+        }
+        
+        /* Selected row */
+        .table tbody tr.selected {
+            background-color: #e7f1ff;
+        }
+    </style>
+
 </head>
 
 <body>
-    <div class="container">
-        <!-- Sidebar -->
+    <!-- Sidebar -->
         <?php
         $currentPage = 'medicines';
         include '../includes/navbar.php';
         ?>
+    <div class="container">
+        
 
         <!-- Main Content -->
         <main class="main-content">
@@ -202,106 +304,7 @@ $tableLayout = new TableLayout($tableName, [
             </div>
         </div>
     </div>
-    <script src="../js/navbar.js"></script>
     <script src="../js/sort.js"></script>
-    <script src="../js/medicines.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Include your sort.js file here -->
-    <script src="sort.js"></script>
-    
-    <!-- Additional JavaScript for enhanced functionality -->
-    <script>
-        // Initialize tooltips
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-        
-        // Row selection enhancement
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('row-checkbox')) {
-                const row = e.target.closest('tr');
-                if (e.target.checked) {
-                    row.classList.add('selected');
-                } else {
-                    row.classList.remove('selected');
-                }
-            }
-        });
-        
-        // Double-click to edit
-        document.addEventListener('dblclick', function(e) {
-            const row = e.target.closest('tr[data-row-id]');
-            if (row && !e.target.closest('.btn')) {
-                const editBtn = row.querySelector('.action-edit');
-                if (editBtn) {
-                    editBtn.click();
-                }
-            }
-        });
-        
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            // Ctrl+A to select all
-            if (e.ctrlKey && e.key === 'a' && document.activeElement.tagName !== 'INPUT') {
-                e.preventDefault();
-                const selectAll = document.querySelector('#select-all-' + getCurrentTableName());
-                if (selectAll) {
-                    selectAll.click();
-                }
-            }
-            // Esc to deselect all
-            if (e.key === 'Escape') {
-                e.preventDefault();
-                // Deselect all rows
-                const selectedRows = document.querySelectorAll('tr.selected');
-                selectedRows.forEach(row => {
-                    const checkbox = row.querySelector('.row-checkbox');
-                    if (checkbox) {
-                        checkbox.checked = false;
-                        row.classList.remove('selected');
-                    }
-                });
-            }
-            
-            // Ctrl+F to focus search
-            if (e.ctrlKey && e.key === 'f') {
-                e.preventDefault();
-                const searchInput = document.querySelector('[id^="table-search-"]');
-                if (searchInput) {
-                    searchInput.focus();
-                    searchInput.select();
-                }
-            }
-        });
-        
-        // Helper function to get current table name
-        function getCurrentTableName() {
-            const container = document.querySelector('.table-layout-container');
-            return container ? container.dataset.table : '';
-        }
-        
-        // Auto-refresh option (optional)
-        let autoRefreshInterval = null;
-        function toggleAutoRefresh(enable, intervalSeconds = 30) {
-            if (autoRefreshInterval) {
-                clearInterval(autoRefreshInterval);
-                autoRefreshInterval = null;
-            }
-            
-            if (enable) {
-                autoRefreshInterval = setInterval(() => {
-                    const refreshBtn = document.querySelector('[id^="refresh-table-"]');
-                    if (refreshBtn) {
-                        refreshBtn.click();
-                    }
-                }, intervalSeconds * 1000);
-            }
-        }
-        
-        // Example: Enable auto-refresh every 30 seconds
-        // toggleAutoRefresh(true, 30);
-    </script>
 </body>
 
 </html>

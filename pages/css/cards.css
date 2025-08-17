@@ -2,10 +2,11 @@
 /* Enhanced Stat Cards with Better SVG Styling */
 .stats-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+    gap: 20px; /* space between cards */
     margin-bottom: 40px;
 }
+
 
 .stat-card {
     background: var(--form-bg);
