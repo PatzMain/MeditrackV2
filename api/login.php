@@ -1,8 +1,5 @@
 <?php
 include 'connection.php';
-// ========================================
-// AUTHENTICATION FUNCTIONS
-// ========================================
 function isUserLoggedIn($pdo) {
     if (!isset($_SESSION['user_id'])) {
         return false;
@@ -27,9 +24,6 @@ function requireRole($role) {
     }
 }
 
-/* ========================================
-   AUTO-CREATE SUPERADMIN IF MISSING
-   ======================================== */
 try {
     $checkSuperadmin = $pdo->prepare("SELECT COUNT(*) FROM users WHERE role = 'superadmin'");
     $checkSuperadmin->execute();
@@ -57,9 +51,7 @@ try {
     error_log("Superadmin check/insert failed: " . $e->getMessage());
 }
 
-// ========================================
-// HANDLE LOGIN FORM SUBMISSION
-// ========================================
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'login') {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
@@ -94,9 +86,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['a
     }
 }
 
-// ========================================
-// HANDLE LOGOUT
-// ========================================
 if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     if (isset($_SESSION['user_id'])) {
         $user_id = $_SESSION['user_id'];

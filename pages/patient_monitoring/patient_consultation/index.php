@@ -1,7 +1,3 @@
-<?php
-include '../../../api/patient_consultation.php';
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +5,7 @@ include '../../../api/patient_consultation.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MediTrack - Patient Consultation</title>
-    <?php include '../../includes/styles2.php'; ?>
+    <?php include '../../includes/styles.php'; ?>
 </head>
 
 <body>
@@ -17,7 +13,7 @@ include '../../../api/patient_consultation.php';
         <!-- Sidebar -->
         <?php
         $currentPage = 'patient_consultation';
-        include '../../includes/navbar2.php';
+        include '../../includes/navbar.php';
         ?>
 
         <!-- Main Content -->

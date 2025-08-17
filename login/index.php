@@ -8,7 +8,7 @@ include '../api/login.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MediTrack - Login</title>
-    <link rel="stylesheet" href="../pages/css/login.css">
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
     <div class="bg-shapes">

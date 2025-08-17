@@ -6,7 +6,7 @@ include '../../api/auth.php';
 
 // Check if user is logged in and is a superadmin
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'superadmin') {
-    header('Location: ../../login/login.php');
+    header('Location: ../../login/');
     exit();
 }
 

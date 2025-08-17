@@ -16,7 +16,7 @@ include '../../api/auth.php';
         <!-- Sidebar -->
         <?php
         $currentPage = 'dashboard';
-        include '../includes/navbar1.php';
+        include '../includes/navbar.php';
         ?>
 
         <!-- Main Content -->
