@@ -7,6 +7,7 @@ return [
         'icon' => 'fa-pills',
         'columns' => [
             'medicine_id' => [
+                'value' => $stats['medicine_id'] ?? '',
                 'label' => 'ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -15,6 +16,7 @@ return [
                 'editable' => false
             ],
             'medicine_name' => [
+                'value' => $stats['medicine_name'] ?? '',
                 'label' => 'Medicine Name',
                 'type' => 'text',
                 'sortable' => true,
@@ -26,6 +28,7 @@ return [
                 'class' => 'medicine-name'
             ],
             'medicine_brand_name' => [
+                'value' => $stats['medicine_brand_name'] ?? '',
                 'label' => 'Brand Name',
                 'type' => 'text',
                 'sortable' => true,
@@ -35,6 +38,7 @@ return [
                 'width' => '15%'
             ],
             'medicine_generic_name' => [
+                'value' => $stats['medicine_generic_name'] ?? '',
                 'label' => 'Generic Name',
                 'type' => 'text',
                 'sortable' => true,
@@ -44,6 +48,7 @@ return [
                 'width' => '15%'
             ],
             'medicine_classification' => [
+                'value' => $stats['medicine_classification'] ?? '',
                 'label' => 'Classification',
                 'type' => 'enum',
                 'sortable' => true,
@@ -83,6 +88,7 @@ return [
                 ]
             ],
             'medicine_dosage' => [
+                'value' => $stats['medicine_dosage'] ?? '',
                 'label' => 'Dosage',
                 'type' => 'text',
                 'sortable' => true,
@@ -92,6 +98,7 @@ return [
                 'width' => '10%'
             ],
             'medicine_unit' => [
+                'value' => $stats['medicine_unit'] ?? '',
                 'label' => 'Unit',
                 'type' => 'text',
                 'sortable' => true,
@@ -101,6 +108,7 @@ return [
                 'width' => '8%'
             ],
             'medicine_stock' => [
+                'value' => $stats['medicine_stock'] ?? '',
                 'label' => 'Stock',
                 'type' => 'integer',
                 'sortable' => true,
@@ -114,6 +122,7 @@ return [
                 'low_stock_threshold' => 20
             ],
             'medicine_expiry_date' => [
+                'value' => $stats['medicine_expiry_date'] ?? '',
                 'label' => 'Expiry Date',
                 'type' => 'date',
                 'sortable' => true,
@@ -124,6 +133,7 @@ return [
                 'format' => 'expiry_status'
             ],
             'medicine_description' => [
+                'value' => $stats['medicine_description'] ?? '',
                 'label' => 'Description',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -132,6 +142,7 @@ return [
                 'editable' => true
             ],
             'created_at' => [
+                'value' => $stats['created_at'] ?? '',
                 'label' => 'Created',
                 'type' => 'datetime',
                 'sortable' => true,
@@ -154,12 +165,12 @@ return [
                 'class' => 'btn-warning btn-sm',
                 'modal' => true
             ],
-            'delete' => [
-                'label' => 'Delete',
-                'icon' => 'fa-trash',
-                'class' => 'btn-danger btn-sm',
+            'archive' => [
+                'label' => 'Archive',
+                'icon' => 'fa-archive',
+                'class' => 'btn-secondary btn-sm',
                 'confirm' => true,
-                'confirm_message' => 'Are you sure you want to delete this medicine?'
+                'confirm_message' => 'Are you sure you want to archive this medical medicine?'
             ],
         ],
         'filters' => [
@@ -209,6 +220,7 @@ return [
         'icon' => 'fa-tooth',
         'columns' => [
             'medicine_id' => [
+                'value' => $stats['medicine_id'] ?? '',
                 'label' => 'ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -217,6 +229,7 @@ return [
                 'editable' => false
             ],
             'medicine_name' => [
+                'value' => $stats['medicine_name'] ?? '',
                 'label' => 'Medicine Name',
                 'type' => 'text',
                 'sortable' => true,
@@ -228,6 +241,7 @@ return [
                 'class' => 'medicine-name'
             ],
             'medicine_brand_name' => [
+                'value' => $stats['medicine_brand_name'] ?? '',
                 'label' => 'Brand Name',
                 'type' => 'text',
                 'sortable' => true,
@@ -237,6 +251,7 @@ return [
                 'width' => '15%'
             ],
             'medicine_generic_name' => [
+                'value' => $stats['medicine_generic_name'] ?? '',
                 'label' => 'Generic Name',
                 'type' => 'text',
                 'sortable' => true,
@@ -246,6 +261,7 @@ return [
                 'width' => '15%'
             ],
             'medicine_classification' => [
+                'value' => $stats['medicine_classification'] ?? '',
                 'label' => 'Classification',
                 'type' => 'enum',
                 'sortable' => true,
@@ -282,6 +298,7 @@ return [
                 ]
             ],
             'medicine_dosage' => [
+                'value' => $stats['medicine_dosage'] ?? '',
                 'label' => 'Dosage',
                 'type' => 'text',
                 'sortable' => true,
@@ -291,6 +308,7 @@ return [
                 'width' => '10%'
             ],
             'medicine_unit' => [
+                'value' => $stats['medicine_unit'] ?? '',
                 'label' => 'Unit',
                 'type' => 'text',
                 'sortable' => true,
@@ -300,6 +318,7 @@ return [
                 'width' => '8%'
             ],
             'medicine_stock' => [
+                'value' => $stats['medicine_stock'] ?? '',
                 'label' => 'Stock',
                 'type' => 'integer',
                 'sortable' => true,
@@ -313,6 +332,7 @@ return [
                 'low_stock_threshold' => 15
             ],
             'medicine_expiry_date' => [
+                'value' => $stats['medicine_expiry_date'] ?? '',
                 'label' => 'Expiry Date',
                 'type' => 'date',
                 'sortable' => true,
@@ -323,6 +343,7 @@ return [
                 'format' => 'expiry_status'
             ],
             'medicine_description' => [
+                'value' => $stats['medicine_description'] ?? '',
                 'label' => 'Description',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -331,6 +352,7 @@ return [
                 'editable' => true
             ],
             'created_at' => [
+                'value' => $stats['created_at'] ?? '',
                 'label' => 'Created',
                 'type' => 'datetime',
                 'sortable' => true,
@@ -353,12 +375,12 @@ return [
                 'class' => 'btn-warning btn-sm',
                 'modal' => true
             ],
-            'delete' => [
-                'label' => 'Delete',
-                'icon' => 'fa-trash',
-                'class' => 'btn-danger btn-sm',
+            'archive' => [
+                'label' => 'Archive',
+                'icon' => 'fa-archive',
+                'class' => 'btn-secondary btn-sm',
                 'confirm' => true,
-                'confirm_message' => 'Are you sure you want to delete this dental medicine?'
+                'confirm_message' => 'Are you sure you want to archive this dental medicine?'
             ],
         ],
         'filters' => [
@@ -408,6 +430,7 @@ return [
         'icon' => 'fa-box-medical',
         'columns' => [
             'supply_id' => [
+                'value' => $stats['supply_id'] ?? '',
                 'label' => 'ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -416,6 +439,7 @@ return [
                 'editable' => false
             ],
             'supply_name' => [
+                'value' => $stats['supply_name'] ?? '',
                 'label' => 'Supply Name',
                 'type' => 'text',
                 'sortable' => true,
@@ -427,6 +451,7 @@ return [
                 'class' => 'supply-name'
             ],
             'supply_brand_name' => [
+                'value' => $stats['supply_brand_name'] ?? '',
                 'label' => 'Brand Name',
                 'type' => 'text',
                 'sortable' => true,
@@ -436,6 +461,7 @@ return [
                 'width' => '15%'
             ],
             'supply_classification' => [
+                'value' => $stats['supply_classification'] ?? '',
                 'label' => 'Classification',
                 'type' => 'enum',
                 'sortable' => true,
@@ -472,6 +498,7 @@ return [
                 ]
             ],
             'supply_quantity' => [
+                'value' => $stats['supply_quantity'] ?? '',
                 'label' => 'Quantity',
                 'type' => 'integer',
                 'sortable' => true,
@@ -485,6 +512,7 @@ return [
                 'low_stock_threshold' => 50
             ],
             'supply_unit' => [
+                'value' => $stats['supply_unit'] ?? '',
                 'label' => 'Unit',
                 'type' => 'text',
                 'sortable' => true,
@@ -494,6 +522,7 @@ return [
                 'width' => '8%'
             ],
             'supply_expiry_date' => [
+                'value' => $stats['supply_expiry_date'] ?? '',
                 'label' => 'Expiry Date',
                 'type' => 'date',
                 'sortable' => true,
@@ -504,6 +533,7 @@ return [
                 'format' => 'expiry_status'
             ],
             'supply_description' => [
+                'value' => $stats['supply_description'] ?? '',
                 'label' => 'Description',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -512,6 +542,7 @@ return [
                 'editable' => true
             ],
             'created_at' => [
+                'value' => $stats['created_at'] ?? '',
                 'label' => 'Created',
                 'type' => 'datetime',
                 'sortable' => true,
@@ -534,12 +565,12 @@ return [
                 'class' => 'btn-warning btn-sm',
                 'modal' => true
             ],
-            'delete' => [
-                'label' => 'Delete',
-                'icon' => 'fa-trash',
-                'class' => 'btn-danger btn-sm',
+            'archive' => [
+                'label' => 'Archive',
+                'icon' => 'fa-archive',
+                'class' => 'btn-secondary btn-sm',
                 'confirm' => true,
-                'confirm_message' => 'Are you sure you want to delete this supply?'
+                'confirm_message' => 'Are you sure you want to archive this medical supply?'
             ],
         ],
         'filters' => [
@@ -589,6 +620,7 @@ return [
         'icon' => 'fa-tooth',
         'columns' => [
             'supply_id' => [
+                'value' => $stats['supply_id'] ?? '',
                 'label' => 'ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -597,6 +629,7 @@ return [
                 'editable' => false
             ],
             'supply_name' => [
+                'value' => $stats['supply_name'] ?? '',
                 'label' => 'Supply Name',
                 'type' => 'text',
                 'sortable' => true,
@@ -608,6 +641,7 @@ return [
                 'class' => 'supply-name'
             ],
             'supply_brand_name' => [
+                'value' => $stats['supply_brand_name'] ?? '',
                 'label' => 'Brand Name',
                 'type' => 'text',
                 'sortable' => true,
@@ -617,6 +651,7 @@ return [
                 'width' => '15%'
             ],
             'supply_classification' => [
+                'value' => $stats['supply_classification'] ?? '',
                 'label' => 'Classification',
                 'type' => 'enum',
                 'sortable' => true,
@@ -649,6 +684,7 @@ return [
                 ]
             ],
             'supply_quantity' => [
+                'value' => $stats['supply_quantity'] ?? '',
                 'label' => 'Quantity',
                 'type' => 'integer',
                 'sortable' => true,
@@ -662,6 +698,7 @@ return [
                 'low_stock_threshold' => 30
             ],
             'supply_unit' => [
+                'value' => $stats['supply_unit'] ?? '',
                 'label' => 'Unit',
                 'type' => 'text',
                 'sortable' => true,
@@ -671,6 +708,7 @@ return [
                 'width' => '8%'
             ],
             'supply_expiry_date' => [
+                'value' => $stats['supply_expiry_date'] ?? '',
                 'label' => 'Expiry Date',
                 'type' => 'date',
                 'sortable' => true,
@@ -681,6 +719,7 @@ return [
                 'format' => 'expiry_status'
             ],
             'supply_description' => [
+                'value' => $stats['supply_description'] ?? '',
                 'label' => 'Description',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -689,6 +728,7 @@ return [
                 'editable' => true
             ],
             'created_at' => [
+                'value' => $stats['created_at'] ?? '',
                 'label' => 'Created',
                 'type' => 'datetime',
                 'sortable' => true,
@@ -711,12 +751,12 @@ return [
                 'class' => 'btn-warning btn-sm',
                 'modal' => true
             ],
-            'delete' => [
-                'label' => 'Delete',
-                'icon' => 'fa-trash',
-                'class' => 'btn-danger btn-sm',
+            'archive' => [
+                'label' => 'Archive',
+                'icon' => 'fa-archive',
+                'class' => 'btn-secondary btn-sm',
                 'confirm' => true,
-                'confirm_message' => 'Are you sure you want to delete this dental supply?'
+                'confirm_message' => 'Are you sure you want to archive this dental supply?'
             ],
         ],
         'filters' => [
@@ -766,6 +806,7 @@ return [
         'icon' => 'fa-stethoscope',
         'columns' => [
             'equipment_id' => [
+                'value' => $stats['equipment_id'] ?? '',
                 'label' => 'ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -774,6 +815,7 @@ return [
                 'editable' => false
             ],
             'equipment_name' => [
+                'value' => $stats['equipment_name'] ?? '',
                 'label' => 'Equipment Name',
                 'type' => 'text',
                 'sortable' => true,
@@ -785,6 +827,7 @@ return [
                 'class' => 'equipment-name'
             ],
             'serial_number' => [
+                'value' => $stats['serial_number'] ?? '',
                 'label' => 'Serial Number',
                 'type' => 'text',
                 'sortable' => true,
@@ -794,6 +837,7 @@ return [
                 'width' => '15%'
             ],
             'equipment_classification' => [
+                'value' => $stats['equipment_classification'] ?? '',
                 'label' => 'Classification',
                 'type' => 'enum',
                 'sortable' => true,
@@ -824,6 +868,7 @@ return [
                 ]
             ],
             'equipment_condition' => [
+                'value' => $stats['equipment_condition'] ?? '',
                 'label' => 'Condition',
                 'type' => 'text',
                 'sortable' => true,
@@ -833,6 +878,7 @@ return [
                 'width' => '10%'
             ],
             'equipment_location' => [
+                'value' => $stats['equipment_location'] ?? '',
                 'label' => 'Location',
                 'type' => 'text',
                 'sortable' => true,
@@ -842,6 +888,7 @@ return [
                 'width' => '12%'
             ],
             'remarks' => [
+                'value' => $stats['remarks'] ?? '',
                 'label' => 'Remarks',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -850,6 +897,7 @@ return [
                 'editable' => true
             ],
             'equipment_description' => [
+                'value' => $stats['equipment_description'] ?? '',
                 'label' => 'Description',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -858,6 +906,7 @@ return [
                 'editable' => true
             ],
             'created_at' => [
+                'value' => $stats['created_at'] ?? '',
                 'label' => 'Created',
                 'type' => 'datetime',
                 'sortable' => true,
@@ -880,12 +929,12 @@ return [
                 'class' => 'btn-warning btn-sm',
                 'modal' => true
             ],
-            'delete' => [
-                'label' => 'Delete',
-                'icon' => 'fa-trash',
-                'class' => 'btn-danger btn-sm',
+            'archive' => [
+                'label' => 'Archive',
+                'icon' => 'fa-archive',
+                'class' => 'btn-secondary btn-sm',
                 'confirm' => true,
-                'confirm_message' => 'Are you sure you want to delete this equipment?'
+                'confirm_message' => 'Are you sure you want to archive this medical equipment?'
             ],
         ],
         'filters' => [
@@ -923,6 +972,7 @@ return [
         'icon' => 'fa-tooth',
         'columns' => [
             'equipment_id' => [
+                'value' => $stats['equipment_id'] ?? '',
                 'label' => 'ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -931,6 +981,7 @@ return [
                 'editable' => false
             ],
             'equipment_name' => [
+                'value' => $stats['equipment_name'] ?? '',
                 'label' => 'Equipment Name',
                 'type' => 'text',
                 'sortable' => true,
@@ -942,6 +993,7 @@ return [
                 'class' => 'equipment-name'
             ],
             'serial_number' => [
+                'value' => $stats['serial_number'] ?? '',
                 'label' => 'Serial Number',
                 'type' => 'text',
                 'sortable' => true,
@@ -951,6 +1003,7 @@ return [
                 'width' => '15%'
             ],
             'equipment_classification' => [
+                'value' => $stats['equipment_classification'] ?? '',
                 'label' => 'Classification',
                 'type' => 'enum',
                 'sortable' => true,
@@ -981,6 +1034,7 @@ return [
                 ]
             ],
             'equipment_condition' => [
+                'value' => $stats['equipment_condition'] ?? '',
                 'label' => 'Condition',
                 'type' => 'text',
                 'sortable' => true,
@@ -990,6 +1044,7 @@ return [
                 'width' => '10%'
             ],
             'equipment_location' => [
+                'value' => $stats['equipment_location'] ?? '',
                 'label' => 'Location',
                 'type' => 'text',
                 'sortable' => true,
@@ -999,6 +1054,7 @@ return [
                 'width' => '12%'
             ],
             'remarks' => [
+                'value' => $stats['remarks'] ?? '',
                 'label' => 'Remarks',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -1007,6 +1063,7 @@ return [
                 'editable' => true
             ],
             'equipment_description' => [
+                'value' => $stats['equipment_description'] ?? '',
                 'label' => 'Description',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -1015,6 +1072,7 @@ return [
                 'editable' => true
             ],
             'created_at' => [
+                'value' => $stats['created_at'] ?? '',
                 'label' => 'Created',
                 'type' => 'datetime',
                 'sortable' => true,
@@ -1037,12 +1095,12 @@ return [
                 'class' => 'btn-warning btn-sm',
                 'modal' => true
             ],
-            'delete' => [
-                'label' => 'Delete',
-                'icon' => 'fa-trash',
-                'class' => 'btn-danger btn-sm',
+            'archive' => [
+                'label' => 'Archive',
+                'icon' => 'fa-archive',
+                'class' => 'btn-secondary btn-sm',
                 'confirm' => true,
-                'confirm_message' => 'Are you sure you want to delete this dental equipment?'
+                'confirm_message' => 'Are you sure you want to archive this dental equipment?'
             ],
         ],
         'filters' => [
@@ -1080,6 +1138,7 @@ return [
         'icon' => 'fa-user-injured',
         'columns' => [
             'patient_id' => [
+                'value' => $stats['patient_id'] ?? '',
                 'label' => 'ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1088,6 +1147,7 @@ return [
                 'editable' => false
             ],
             'patient_number' => [
+                'value' => $stats['patient_number'] ?? '',
                 'label' => 'Patient Number',
                 'type' => 'text',
                 'sortable' => true,
@@ -1099,6 +1159,7 @@ return [
                 'class' => 'patient-number'
             ],
             'first_name' => [
+                'value' => $stats['first_name'] ?? '',
                 'label' => 'First Name',
                 'type' => 'text',
                 'sortable' => true,
@@ -1109,6 +1170,7 @@ return [
                 'width' => '15%'
             ],
             'last_name' => [
+                'value' => $stats['last_name'] ?? '',
                 'label' => 'Last Name',
                 'type' => 'text',
                 'sortable' => true,
@@ -1119,6 +1181,7 @@ return [
                 'width' => '15%'
             ],
             'date_of_birth' => [
+                'value' => $stats['date_of_birth'] ?? '',
                 'label' => 'Date of Birth',
                 'type' => 'date',
                 'sortable' => true,
@@ -1129,6 +1192,7 @@ return [
                 'width' => '10%'
             ],
             'gender' => [
+                'value' => $stats['gender'] ?? '',
                 'label' => 'Gender',
                 'type' => 'enum',
                 'sortable' => true,
@@ -1150,6 +1214,7 @@ return [
                 ]
             ],
             'blood_group' => [
+                'value' => $stats['blood_group'] ?? '',
                 'label' => 'Blood Group',
                 'type' => 'text',
                 'sortable' => true,
@@ -1159,6 +1224,7 @@ return [
                 'width' => '8%'
             ],
             'phone' => [
+                'value' => $stats['phone'] ?? '',
                 'label' => 'Phone',
                 'type' => 'text',
                 'sortable' => true,
@@ -1168,6 +1234,7 @@ return [
                 'width' => '10%'
             ],
             'email' => [
+                'value' => $stats['email'] ?? '',
                 'label' => 'Email',
                 'type' => 'email',
                 'sortable' => true,
@@ -1176,6 +1243,7 @@ return [
                 'editable' => true
             ],
             'student_type' => [
+                'value' => $stats['student_type'] ?? '',
                 'label' => 'Student Type',
                 'type' => 'enum',
                 'sortable' => true,
@@ -1195,6 +1263,7 @@ return [
                 ]
             ],
             'course' => [
+                'value' => $stats['course'] ?? '',
                 'label' => 'Course',
                 'type' => 'text',
                 'sortable' => true,
@@ -1203,6 +1272,7 @@ return [
                 'editable' => true
             ],
             'year_level' => [
+                'value' => $stats['year_level'] ?? '',
                 'label' => 'Year Level',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1211,6 +1281,7 @@ return [
                 'editable' => true
             ],
             'grade_level' => [
+                'value' => $stats['grade_level'] ?? '',
                 'label' => 'Grade Level',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1219,6 +1290,7 @@ return [
                 'editable' => true
             ],
             'strand' => [
+                'value' => $stats['strand'] ?? '',
                 'label' => 'Strand',
                 'type' => 'text',
                 'sortable' => true,
@@ -1227,6 +1299,7 @@ return [
                 'editable' => true
             ],
             'patient_address' => [
+                'value' => $stats['patient_address'] ?? '',
                 'label' => 'Address',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -1235,6 +1308,7 @@ return [
                 'editable' => true
             ],
             'emergency_contact_name' => [
+                'value' => $stats['emergency_contact_name'] ?? '',
                 'label' => 'Emergency Contact',
                 'type' => 'text',
                 'sortable' => true,
@@ -1243,6 +1317,7 @@ return [
                 'editable' => true
             ],
             'emergency_contact_phone' => [
+                'value' => $stats['emergency_contact_phone'] ?? '',
                 'label' => 'Emergency Phone',
                 'type' => 'text',
                 'sortable' => true,
@@ -1251,6 +1326,7 @@ return [
                 'editable' => true
             ],
             'allergies' => [
+                'value' => $stats['allergies'] ?? '',
                 'label' => 'Allergies',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -1259,6 +1335,7 @@ return [
                 'editable' => true
             ],
             'medical_conditions' => [
+                'value' => $stats['medical_conditions'] ?? '',
                 'label' => 'Medical Conditions',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -1267,6 +1344,7 @@ return [
                 'editable' => true
             ],
             'admission_date' => [
+                'value' => $stats['admission_date'] ?? '',
                 'label' => 'Admission Date',
                 'type' => 'date',
                 'sortable' => true,
@@ -1276,6 +1354,7 @@ return [
                 'width' => '10%'
             ],
             'discharge_date' => [
+                'value' => $stats['discharge_date'] ?? '',
                 'label' => 'Discharge Date',
                 'type' => 'date',
                 'sortable' => true,
@@ -1284,6 +1363,7 @@ return [
                 'editable' => true
             ],
             'patient_status' => [
+                'value' => $stats['patient_status'] ?? '',
                 'label' => 'Status',
                 'type' => 'enum',
                 'sortable' => true,
@@ -1306,6 +1386,7 @@ return [
                 ]
             ],
             'room_id' => [
+                'value' => $stats['room_id'] ?? '',
                 'label' => 'Room ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1314,6 +1395,7 @@ return [
                 'editable' => true
             ],
             'bed_id' => [
+                'value' => $stats['bed_id'] ?? '',
                 'label' => 'Bed ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1322,6 +1404,7 @@ return [
                 'editable' => true
             ],
             'created_at' => [
+                'value' => $stats['created_at'] ?? '',
                 'label' => 'Created',
                 'type' => 'datetime',
                 'sortable' => true,
@@ -1331,6 +1414,7 @@ return [
                 'format' => 'datetime'
             ],
             'updated_at' => [
+                'value' => $stats['updated_at'] ?? '',
                 'label' => 'Updated',
                 'type' => 'datetime',
                 'sortable' => true,
@@ -1367,12 +1451,12 @@ return [
                 'action' => 'redirect',
                 'url' => 'assessments.php?patient_id='
             ],
-            'delete' => [
-                'label' => 'Delete',
-                'icon' => 'fa-trash',
-                'class' => 'btn-danger btn-sm',
+            'archive' => [
+                'label' => 'Archive',
+                'icon' => 'fa-archive',
+                'class' => 'btn-secondary btn-sm',
                 'confirm' => true,
-                'confirm_message' => 'Are you sure you want to delete this patient record?'
+                'confirm_message' => 'Are you sure you want to archive this patient record?'
             ],
         ],
         'filters' => [
@@ -1416,6 +1500,7 @@ return [
         'icon' => 'fa-heartbeat',
         'columns' => [
             'vital_id' => [
+                'value' => $stats['vital_id'] ?? '',
                 'label' => 'ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1424,6 +1509,7 @@ return [
                 'editable' => false
             ],
             'patient_id' => [
+                'value' => $stats['patient_id'] ?? '',
                 'label' => 'Patient ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1434,6 +1520,7 @@ return [
                 'width' => '10%'
             ],
             'systolic_bp' => [
+                'value' => $stats['systolic_bp'] ?? '',
                 'label' => 'Systolic BP',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1443,6 +1530,7 @@ return [
                 'width' => '8%'
             ],
             'diastolic_bp' => [
+                'value' => $stats['diastolic_bp'] ?? '',
                 'label' => 'Diastolic BP',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1452,6 +1540,7 @@ return [
                 'width' => '8%'
             ],
             'heart_rate' => [
+                'value' => $stats['heart_rate'] ?? '',
                 'label' => 'Heart Rate',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1461,6 +1550,7 @@ return [
                 'width' => '8%'
             ],
             'respiratory_rate' => [
+                'value' => $stats['respiratory_rate'] ?? '',
                 'label' => 'Respiratory Rate',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1470,6 +1560,7 @@ return [
                 'width' => '10%'
             ],
             'temperature' => [
+                'value' => $stats['temperature'] ?? '',
                 'label' => 'Temperature',
                 'type' => 'decimal',
                 'sortable' => true,
@@ -1479,6 +1570,7 @@ return [
                 'width' => '8%'
             ],
             'temperature_unit' => [
+                'value' => $stats['temperature_unit'] ?? 'C',
                 'label' => 'Temp Unit',
                 'type' => 'enum',
                 'sortable' => true,
@@ -1492,6 +1584,7 @@ return [
                 ]
             ],
             'oxygen_saturation' => [
+                'value' => $stats['oxygen_saturation'] ?? '',
                 'label' => 'Oxygen Sat',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1501,6 +1594,7 @@ return [
                 'width' => '8%'
             ],
             'blood_glucose' => [
+                'value' => $stats['blood_glucose'] ?? '',
                 'label' => 'Blood Glucose',
                 'type' => 'decimal',
                 'sortable' => true,
@@ -1509,6 +1603,7 @@ return [
                 'editable' => true
             ],
             'v_weight' => [
+                'value' => $stats['v_weight'] ?? '',
                 'label' => 'Weight',
                 'type' => 'decimal',
                 'sortable' => true,
@@ -1518,6 +1613,7 @@ return [
                 'width' => '8%'
             ],
             'v_height' => [
+                'value' => $stats['v_height'] ?? '',
                 'label' => 'Height',
                 'type' => 'decimal',
                 'sortable' => true,
@@ -1527,6 +1623,7 @@ return [
                 'width' => '8%'
             ],
             'pain_scale' => [
+                'value' => $stats['pain_scale'] ?? '',
                 'label' => 'Pain Scale',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1538,6 +1635,7 @@ return [
                 'max' => 10
             ],
             'consciousness_level' => [
+                'value' => $stats['consciousness_level'] ?? 'alert',
                 'label' => 'Consciousness',
                 'type' => 'enum',
                 'sortable' => true,
@@ -1560,6 +1658,7 @@ return [
                 ]
             ],
             'notes' => [
+                'value' => $stats['notes'] ?? '',
                 'label' => 'Notes',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -1568,6 +1667,7 @@ return [
                 'editable' => true
             ],
             'recorded_at' => [
+                'value' => $stats['recorded_at'] ?? '',
                 'label' => 'Recorded At',
                 'type' => 'datetime',
                 'sortable' => true,
@@ -1591,12 +1691,12 @@ return [
                 'class' => 'btn-warning btn-sm',
                 'modal' => true
             ],
-            'delete' => [
-                'label' => 'Delete',
-                'icon' => 'fa-trash',
-                'class' => 'btn-danger btn-sm',
+            'archive' => [
+                'label' => 'Archive',
+                'icon' => 'fa-archive',
+                'class' => 'btn-secondary btn-sm',
                 'confirm' => true,
-                'confirm_message' => 'Are you sure you want to delete this vital signs record?'
+                'confirm_message' => 'Are you sure you want to archive this vital signs record?'
             ],
         ],
         'filters' => [
@@ -1635,6 +1735,7 @@ return [
         'icon' => 'fa-clipboard-check',
         'columns' => [
             'assessment_id' => [
+                'value' => $stats['assessment_id'] ?? '',
                 'label' => 'ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1643,6 +1744,7 @@ return [
                 'editable' => false
             ],
             'patient_id' => [
+                'value' => $stats['patient_id'] ?? '',
                 'label' => 'Patient ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1653,6 +1755,7 @@ return [
                 'width' => '10%'
             ],
             'assessment_type' => [
+                'value' => $stats['assessment_type'] ?? '',
                 'label' => 'Type',
                 'type' => 'enum',
                 'sortable' => true,
@@ -1678,6 +1781,7 @@ return [
                 ]
             ],
             'chief_complaint' => [
+                'value' => $stats['chief_complaint'] ?? '',
                 'label' => 'Chief Complaint',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -1687,6 +1791,7 @@ return [
                 'width' => '20%'
             ],
             'present_illness' => [
+                'value' => $stats['present_illness'] ?? '',
                 'label' => 'Present Illness',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -1695,6 +1800,7 @@ return [
                 'editable' => true
             ],
             'physical_examination' => [
+                'value' => $stats['physical_examination'] ?? '',
                 'label' => 'Physical Exam',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -1703,6 +1809,7 @@ return [
                 'editable' => true
             ],
             'diagnosis' => [
+                'value' => $stats['diagnosis'] ?? '',
                 'label' => 'Diagnosis',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -1712,6 +1819,7 @@ return [
                 'width' => '20%'
             ],
             'treatment_plan' => [
+                'value' => $stats['treatment_plan'] ?? '',
                 'label' => 'Treatment Plan',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -1720,6 +1828,7 @@ return [
                 'editable' => true
             ],
             'prognosis' => [
+                'value' => $stats['prognosis'] ?? '',
                 'label' => 'Prognosis',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -1728,6 +1837,7 @@ return [
                 'editable' => true
             ],
             'follow_up_required' => [
+                'value' => $stats['follow_up_required'] ?? false,
                 'label' => 'Follow Up Required',
                 'type' => 'boolean',
                 'sortable' => true,
@@ -1737,6 +1847,7 @@ return [
                 'width' => '10%'
             ],
             'follow_up_date' => [
+                'value' => $stats['follow_up_date'] ?? '',
                 'label' => 'Follow Up Date',
                 'type' => 'date',
                 'sortable' => true,
@@ -1745,6 +1856,7 @@ return [
                 'editable' => true
             ],
             'priority_level' => [
+                'value' => $stats['priority_level'] ?? 'medium',
                 'label' => 'Priority',
                 'type' => 'enum',
                 'sortable' => true,
@@ -1767,6 +1879,7 @@ return [
                 ]
             ],
             'assessment_date' => [
+                'value' => $stats['assessment_date'] ?? '',
                 'label' => 'Assessment Date',
                 'type' => 'datetime',
                 'sortable' => true,
@@ -1790,12 +1903,12 @@ return [
                 'class' => 'btn-warning btn-sm',
                 'modal' => true
             ],
-            'delete' => [
-                'label' => 'Delete',
-                'icon' => 'fa-trash',
-                'class' => 'btn-danger btn-sm',
+            'archive' => [
+                'label' => 'Archive',
+                'icon' => 'fa-archive',
+                'class' => 'btn-secondary btn-sm',
                 'confirm' => true,
-                'confirm_message' => 'Are you sure you want to delete this assessment?'
+                'confirm_message' => 'Are you sure you want to archive this assessment?'
             ],
         ],
         'filters' => [
@@ -1843,6 +1956,7 @@ return [
         'icon' => 'fa-notes-medical',
         'columns' => [
             'note_id' => [
+                'value' => $stats['note_id'] ?? '',
                 'label' => 'ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1851,6 +1965,7 @@ return [
                 'editable' => false
             ],
             'patient_id' => [
+                'value' => $stats['patient_id'] ?? '',
                 'label' => 'Patient ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -1861,6 +1976,7 @@ return [
                 'width' => '10%'
             ],
             'nursing_shift' => [
+                'value' => $stats['nursing_shift'] ?? '',
                 'label' => 'Shift',
                 'type' => 'enum',
                 'sortable' => true,
@@ -1882,6 +1998,7 @@ return [
                 ]
             ],
             'nursing_note_type' => [
+                'value' => $stats['nursing_note_type'] ?? '',
                 'label' => 'Note Type',
                 'type' => 'enum',
                 'sortable' => true,
@@ -1909,6 +2026,7 @@ return [
                 ]
             ],
             'nursing_note_content' => [
+                'value' => $stats['nursing_note_content'] ?? '',
                 'label' => 'Note Content',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -1919,6 +2037,7 @@ return [
                 'width' => '30%'
             ],
             'nursing_action_taken' => [
+                'value' => $stats['nursing_action_taken'] ?? '',
                 'label' => 'Action Taken',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -1927,6 +2046,7 @@ return [
                 'editable' => true
             ],
             'nursing_follow_up_needed' => [
+                'value' => $stats['nursing_follow_up_needed'] ?? false,
                 'label' => 'Follow Up Needed',
                 'type' => 'boolean',
                 'sortable' => true,
@@ -1936,6 +2056,7 @@ return [
                 'width' => '10%'
             ],
             'nursing_priority' => [
+                'value' => $stats['nursing_priority'] ?? 'medium',
                 'label' => 'Priority',
                 'type' => 'enum',
                 'sortable' => true,
@@ -1956,6 +2077,7 @@ return [
                 ]
             ],
             'created_at' => [
+                'value' => $stats['created_at'] ?? '',
                 'label' => 'Created',
                 'type' => 'datetime',
                 'sortable' => true,
@@ -1979,12 +2101,12 @@ return [
                 'class' => 'btn-warning btn-sm',
                 'modal' => true
             ],
-            'delete' => [
-                'label' => 'Delete',
-                'icon' => 'fa-trash',
-                'class' => 'btn-danger btn-sm',
+            'archive' => [
+                'label' => 'Archive',
+                'icon' => 'fa-archive',
+                'class' => 'btn-secondary btn-sm',
                 'confirm' => true,
-                'confirm_message' => 'Are you sure you want to delete this nursing note?'
+                'confirm_message' => 'Are you sure you want to archive this nursing note?'
             ],
         ],
         'filters' => [
@@ -2037,6 +2159,7 @@ return [
         'icon' => 'fa-history',
         'columns' => [
             'log_id' => [
+                'value' => $stats['log_id'] ?? '',
                 'label' => 'ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -2045,6 +2168,7 @@ return [
                 'editable' => false
             ],
             'user_id' => [
+                'value' => $stats['user_id'] ?? '',
                 'label' => 'User ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -2054,6 +2178,7 @@ return [
                 'width' => '8%'
             ],
             'patient_id' => [
+                'value' => $stats['patient_id'] ?? '',
                 'label' => 'Patient ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -2063,6 +2188,7 @@ return [
                 'width' => '8%'
             ],
             'logs_item_type' => [
+                'value' => $stats['logs_item_type'] ?? '',
                 'label' => 'Item Type',
                 'type' => 'enum',
                 'sortable' => true,
@@ -2103,6 +2229,7 @@ return [
                 ]
             ],
             'logs_item_id' => [
+                'value' => $stats['logs_item_id'] ?? '',
                 'label' => 'Item ID',
                 'type' => 'integer',
                 'sortable' => true,
@@ -2112,6 +2239,7 @@ return [
                 'width' => '8%'
             ],
             'logs_item_name' => [
+                'value' => $stats['logs_item_name'] ?? '',
                 'label' => 'Item Name',
                 'type' => 'text',
                 'sortable' => true,
@@ -2121,6 +2249,7 @@ return [
                 'width' => '15%'
             ],
             'logs_description' => [
+                'value' => $stats['logs_description'] ?? '',
                 'label' => 'Description',
                 'type' => 'textarea',
                 'sortable' => false,
@@ -2130,6 +2259,7 @@ return [
                 'width' => '20%'
             ],
             'logs_reason' => [
+                'value' => $stats['logs_reason'] ?? '',
                 'label' => 'Reason',
                 'type' => 'text',
                 'sortable' => true,
@@ -2138,6 +2268,7 @@ return [
                 'editable' => false
             ],
             'logs_quantity' => [
+                'value' => $stats['logs_quantity'] ?? '',
                 'label' => 'Quantity',
                 'type' => 'integer',
                 'sortable' => true,
@@ -2146,6 +2277,7 @@ return [
                 'editable' => false
             ],
             'logs_status' => [
+                'value' => $stats['logs_status'] ?? '',
                 'label' => 'Status',
                 'type' => 'text',
                 'sortable' => true,
@@ -2155,6 +2287,7 @@ return [
                 'width' => '10%'
             ],
             'logs_timestamp' => [
+                'value' => $stats['logs_timestamp'] ?? '',
                 'label' => 'Timestamp',
                 'type' => 'datetime',
                 'sortable' => true,

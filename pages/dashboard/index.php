@@ -41,6 +41,5 @@ include '../../api/auth.php';
             </div>
         </main>
     </div>
-    <script src="../js/navbar.js"></script>
 </body>
 </html>
