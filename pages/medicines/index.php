@@ -1,35 +1,31 @@
 <?php
-include '../../api/auth.php';
-// Include the required files
-require_once '../../api/TableRenderer.php';
-require_once '../../api/TableFetcher.php';
+/**
+ * Example Usage of the Table Management System
+ * This shows how to implement the table components in your pages
+ */
 
-$config = include '../../config/medicines_table.php'; // Your configuration array
-// Get request parameters
-$params = [
-    'sort_column' => $_GET['sort_column'] ?? $config['medical_medicines']['default_sort']['column'],
-    'sort_direction' => $_GET['sort_direction'] ?? $config['medical_medicines']['default_sort']['direction'],
-    'search_query' => $_GET['search_query'] ?? '',
-    'page' => isset($_GET['page']) ? (int) $_GET['page'] : 1,
-    'items_per_page' => isset($_GET['items_per_page']) ? (int) $_GET['items_per_page'] : 10
-];
+// Include required files
+require_once '../../api/connection.php';
+require_once '../../api/table_config.php'; // Adjust path as necessary
+require_once '../../api/TableLayout.php';
 
-// Initialize classes
-$fetcher = new TableFetcher($pdo, $config);
-$renderer = new TableRenderer($config);
+// Example: Display a users table
+$tableName = 'medical_medicines'; // This should match a key in your table_config.php
 
-// Fetch data
-try {
-    $result = $fetcher->fetchTableData('medical_medicines', $params);
-    $data = $result['data'];
-    $pagination = $result['pagination'];
-    $activeFilters = $result['filters'];
-} catch (Exception $e) {
-    $data = [];
-    $pagination = ['current_page' => 1, 'total_pages' => 1, 'total_records' => 0];
-    $activeFilters = [];
-    $error_message = "Error fetching data: " . $e->getMessage();
-}
+// Create table layout with options
+$tableLayout = new TableLayout($tableName, [
+    'show_search' => true,
+    'show_filters' => true,
+    'show_add_button' => true,
+    'show_export' => true,
+    'show_bulk_actions' => true,
+    'per_page' => 25,
+    'ajax_url' => '../../api/table_ajax.php',
+    'add_url' => 'add_user.php',
+    'edit_url' => 'edit_user.php',
+    'delete_url' => 'delete_user.php',
+    'export_formats' => ['csv', 'pdf', 'docx']
+]);
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +43,7 @@ try {
         <!-- Sidebar -->
         <?php
         $currentPage = 'medicines';
-        include '../includes/navbar1.php';
+        include '../includes/navbar.php';
         ?>
 
         <!-- Main Content -->
@@ -64,43 +60,10 @@ try {
             ?>
 
 
-            <!-- Section Header -->
-            <div class="section-header">
-                <h2 class="section-title">Medicine List</h2>
-                <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="openAddModal()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
-                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                        </svg>
-                        Add Medicine
-                    </button>
-                </div>
-            </div>
-
-            <!-- Filter Section -->
-            <div class="filter-section">
-                <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap; width: 100%;">
-                    <input type="text" id="searchInput" class="search-input" placeholder="Search medicines..."
-                        value="<?php echo htmlspecialchars($search); ?>" onkeyup="enhancedSearch()" autocomplete="off">
-
-                    <select id="filterSelect" class="filter-select" onchange="enhancedSearch()">
-                        <option value="all" <?php echo $filter === 'all' ? 'selected' : ''; ?>>All Medicines</option>
-                        <option value="low-stock" <?php echo $filter === 'low-stock' ? 'selected' : ''; ?>>Low Stock
-                        </option>
-                        <option value="expired" <?php echo $filter === 'expired' ? 'selected' : ''; ?>>Expired</option>
-                        <option value="expiring-soon" <?php echo $filter === 'expiring-soon' ? 'selected' : ''; ?>>
-                            Expiring Soon</option>
-                    </select>
-
-                    <button type="button" class="btn btn-secondary" onclick="clearFilters()">Clear</button>
-                </div>
-            </div>
 
             <!-- Medicine Table -->
-            <?php
-            $tableKey = 'medical_medicines';
-            include '../includes/render_table.php';
-            ?>
+            <!-- Render the table -->
+                <?php echo $tableLayout->render(); ?>
         </main>
     </div>
 
@@ -242,6 +205,103 @@ try {
     <script src="../js/navbar.js"></script>
     <script src="../js/sort.js"></script>
     <script src="../js/medicines.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Include your sort.js file here -->
+    <script src="sort.js"></script>
+    
+    <!-- Additional JavaScript for enhanced functionality -->
+    <script>
+        // Initialize tooltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        
+        // Row selection enhancement
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('row-checkbox')) {
+                const row = e.target.closest('tr');
+                if (e.target.checked) {
+                    row.classList.add('selected');
+                } else {
+                    row.classList.remove('selected');
+                }
+            }
+        });
+        
+        // Double-click to edit
+        document.addEventListener('dblclick', function(e) {
+            const row = e.target.closest('tr[data-row-id]');
+            if (row && !e.target.closest('.btn')) {
+                const editBtn = row.querySelector('.action-edit');
+                if (editBtn) {
+                    editBtn.click();
+                }
+            }
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+A to select all
+            if (e.ctrlKey && e.key === 'a' && document.activeElement.tagName !== 'INPUT') {
+                e.preventDefault();
+                const selectAll = document.querySelector('#select-all-' + getCurrentTableName());
+                if (selectAll) {
+                    selectAll.click();
+                }
+            }
+            // Esc to deselect all
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                // Deselect all rows
+                const selectedRows = document.querySelectorAll('tr.selected');
+                selectedRows.forEach(row => {
+                    const checkbox = row.querySelector('.row-checkbox');
+                    if (checkbox) {
+                        checkbox.checked = false;
+                        row.classList.remove('selected');
+                    }
+                });
+            }
+            
+            // Ctrl+F to focus search
+            if (e.ctrlKey && e.key === 'f') {
+                e.preventDefault();
+                const searchInput = document.querySelector('[id^="table-search-"]');
+                if (searchInput) {
+                    searchInput.focus();
+                    searchInput.select();
+                }
+            }
+        });
+        
+        // Helper function to get current table name
+        function getCurrentTableName() {
+            const container = document.querySelector('.table-layout-container');
+            return container ? container.dataset.table : '';
+        }
+        
+        // Auto-refresh option (optional)
+        let autoRefreshInterval = null;
+        function toggleAutoRefresh(enable, intervalSeconds = 30) {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+            }
+            
+            if (enable) {
+                autoRefreshInterval = setInterval(() => {
+                    const refreshBtn = document.querySelector('[id^="refresh-table-"]');
+                    if (refreshBtn) {
+                        refreshBtn.click();
+                    }
+                }, intervalSeconds * 1000);
+            }
+        }
+        
+        // Example: Enable auto-refresh every 30 seconds
+        // toggleAutoRefresh(true, 30);
+    </script>
 </body>
 
 </html>
